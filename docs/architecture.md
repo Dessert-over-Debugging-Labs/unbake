@@ -8,11 +8,18 @@ from independence and joins, not from asking the extractor how sure it is.
 ## Pipeline
 
 ```
-discover → filter → extract → evaluate → structure → review (human) → publish
+discover → filter → gate → extract → evaluate → structure → review (human) → publish
 ```
 
 - **discover/filter** — find candidate videos (YouTube Data API, quota-aware),
   drop non-recipe content, and honor channels whose descriptions forbid reuse.
+- **gate** — immediately before any video is sent to a model, a text-only judge
+  reads the title, channel, and description and decides whether this is a
+  cooking video at all. It runs on every path (batch and single-URL
+  evaluation), on a cheap OpenRouter model by default or on Gemini. Off-domain
+  videos become `filtered_out` with the verdict recorded; a judge failure is a
+  recorded failure, never a silent pass. The threshold lives in code, not in
+  the prompt.
 - **extract** — three independent LLM extractions per video (see below).
 - **evaluate** — deterministic cross-validation producing per-claim verdicts,
   step matching, and temporal metrics.
@@ -76,7 +83,8 @@ Every attempt is recorded with model ID, prompt version/hash, and token usage.
 
 Two layers track progress: a workflow state machine
 (`queued → analyzing → evaluating → pending_review → …`, explicit transition
-table) and per-run evaluation records (attempt, input hash, artifact path).
+table; the domain gate may also send `queued → filtered_out`) and per-run
+evaluation records (attempt, input hash, artifact path).
 Human edits never overwrite: they append revisions, and publishing always
 references an approved revision. Every significant action (analysis, revision,
 approval, rejection, publishing) is appended as an immutable quality event —

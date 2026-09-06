@@ -10,6 +10,27 @@ from unbake.log import setup_cli_logging
 logger = logging.getLogger(__name__)
 
 
+def _domain_judge(cfg: Config, gemini_client, *, skip: bool):
+    """요리 도메인 게이트 조립 — DOMAIN_CHECK 에 따라 OpenRouter / Gemini / 없음.
+
+    게이트는 영상 호출 바로 앞에서 메타만 보고 거른다 (docs/decisions/008).
+    """
+    if skip or cfg.domain_check == "off":
+        why = "--skip-domain-check" if skip else "DOMAIN_CHECK=off 또는 OPENROUTER_API_KEY 없음"
+        logger.info("요리 도메인 게이트: 꺼짐 (%s)", why)
+        return None
+    from unbake.adapters.openrouter.domain_judge import LlmDomainJudge
+
+    if cfg.domain_check == "gemini":
+        logger.info("요리 도메인 게이트: gemini / %s", cfg.models.domain)
+        return LlmDomainJudge(gemini_client, cfg.models.domain)
+    from unbake.adapters.openrouter import OpenRouterClient
+
+    cfg.require("openrouter_api_key")
+    logger.info("요리 도메인 게이트: openrouter / %s", cfg.models.domain)
+    return LlmDomainJudge(OpenRouterClient(cfg.openrouter_api_key), cfg.models.domain)
+
+
 def _cmd_evaluate(args: argparse.Namespace) -> int:
     from unbake.adapters.gemini import (
         GeminiBlindExtractor,
@@ -22,6 +43,7 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
     from unbake.adapters.youtube.videos import get_video_meta
     from unbake.util import parse_video_id
     from unbake.workflow.analyze import analyze_and_evaluate, save_artifacts
+    from unbake.workflow.gate import run_domain_gate
 
     cfg = Config.load()
     cfg.require("gemini_api_key")
@@ -44,6 +66,22 @@ def _cmd_evaluate(args: argparse.Namespace) -> int:
 
     client = GeminiClient(cfg.gemini_api_key)
     models = cfg.models
+
+    # 영상 링크를 Gemini에 넣기 전 — 메타만으로 요리 영상인지 거른다
+    domain_judge = _domain_judge(cfg, client, skip=args.skip_domain_check)
+    if domain_judge is not None:
+        gate = run_domain_gate(
+            domain_judge, video_id=video_id,
+            title=(meta or {}).get("title", ""),
+            channel_title=(meta or {}).get("channelTitle", ""),
+            duration_ms=duration_ms, description=description or "",
+            output_dir=cfg.output_dir,
+        )
+        if not gate.passed:
+            logger.error("요리 영상이 아니라고 판정되어 분석하지 않습니다: %s "
+                         "(강제하려면 --skip-domain-check)", gate.reason)
+            return 2
+
     artifacts = analyze_and_evaluate(
         video_url=f"https://www.youtube.com/watch?v={video_id}",
         video_id=video_id,
@@ -136,9 +174,12 @@ def _cmd_batch(args: argparse.Namespace) -> int:
             ),
             meta_fetcher=lambda vid: get_video_meta(cfg.youtube_api_key, vid),
             count=args.count,
+            domain_judge=_domain_judge(cfg, client, skip=args.skip_domain_check),
         )
         report.discovered = discovered
         logger.info(report.summary_line())
+        for vid, reason in report.off_domain:
+            logger.info("[%s] %s", vid, reason)
         for vid, reason in report.failed:
             logger.warning("[%s] %s", vid, reason)
         return 0 if not report.failed or report.analyzed else 1
@@ -203,6 +244,10 @@ def main(argv: list[str] | None = None) -> int:
     p_eval.add_argument(
         "--description", default=None, help="설명란 텍스트 — 생략 시 YouTube API 조회"
     )
+    p_eval.add_argument(
+        "--skip-domain-check", action="store_true",
+        help="요리 도메인 게이트 생략 — 영상을 바로 분석 (기본: OPENROUTER_API_KEY 있으면 검사)",
+    )
     p_eval.set_defaults(func=_cmd_evaluate)
 
     p_batch = sub.add_parser("batch", help="탐색→필터→분석·평가 배치 (검수는 대시보드에서)")
@@ -211,6 +256,9 @@ def main(argv: list[str] | None = None) -> int:
     p_batch.add_argument("--searches", type=int, default=5, help="검색 트랙 호출 수 (기본 5)")
     p_batch.add_argument(
         "--skip-discover", action="store_true", help="탐색·필터 생략 — 기존 queued만 분석"
+    )
+    p_batch.add_argument(
+        "--skip-domain-check", action="store_true", help="분석 전 요리 도메인 게이트 생략"
     )
     p_batch.set_defaults(func=_cmd_batch)
 

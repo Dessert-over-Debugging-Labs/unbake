@@ -16,8 +16,10 @@ from unbake.adapters.sqlite import store as S
 from unbake.adapters.sqlite.store import Store
 from unbake.adapters.youtube.discover import discover
 from unbake.evaluation.engine import compute_input_hash
+from unbake.filtering.domain import DomainJudgePort
 from unbake.filtering.filter import run_filter
 from unbake.workflow.analyze import analyze_and_evaluate, save_artifacts
+from unbake.workflow.gate import run_domain_gate
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +41,12 @@ class BatchReport:
     queued: list[dict] = field(default_factory=list)
     analyzed: list[str] = field(default_factory=list)
     failed: list[tuple[str, str]] = field(default_factory=list)
+    off_domain: list[tuple[str, str]] = field(default_factory=list)  # 도메인 게이트 탈락
 
     def summary_line(self) -> str:
         return (
             f"탐색 {self.discovered}건 / 큐 {len(self.queued)}건 / "
+            f"도메인 탈락 {len(self.off_domain)}건 / "
             f"분석 성공 {len(self.analyzed)}건 / 실패 {len(self.failed)}건"
         )
 
@@ -73,8 +77,13 @@ def analyze_queued(
     ports: AnalysisPorts,
     meta_fetcher: Callable[[str], dict | None],
     count: int = 3,
+    domain_judge: DomainJudgePort | None = None,
 ) -> BatchReport:
-    """queued 상위 count건을 추출·평가해 pending_review까지 보낸다."""
+    """queued 상위 count건을 (도메인 게이트 →) 추출·평가해 pending_review까지 보낸다.
+
+    domain_judge가 있으면 영상 호출 전에 메타만으로 요리 영상인지 거른다 — 탈락은
+    filtered_out(사유 off_domain), 판정 실패는 analyze_failed. None이면 게이트 없이 진행.
+    """
     report = BatchReport()
     rows = store.list_by_state(S.QUEUED)[:count]
 
@@ -83,6 +92,25 @@ def analyze_queued(
         meta = meta_fetcher(vid) or {}
         duration_ms = meta.get("durationMs") or row["duration_ms"] or None
         description = meta.get("description", "")
+
+        if domain_judge is not None:
+            try:
+                gate = run_domain_gate(
+                    domain_judge, video_id=vid,
+                    title=meta.get("title") or row["title"] or "",
+                    channel_title=meta.get("channelTitle") or row["channel_title"] or "",
+                    duration_ms=duration_ms, description=description, output_dir=output_dir,
+                )
+            except Exception as exc:  # 판정 실패는 통과가 아니다 — 실패로 기록하고 다음 건
+                reason = f"domain_check_error: {type(exc).__name__}: {exc}"[:300]
+                store.transition(vid, S.ANALYZE_FAILED, reason=reason)
+                report.failed.append((vid, reason))
+                logger.warning("[%s] 도메인 게이트 오류: %s", vid, reason)
+                continue
+            if not gate.passed:
+                store.transition(vid, S.FILTERED_OUT, reason=gate.reason)
+                report.off_domain.append((vid, gate.reason))
+                continue
 
         store.transition(vid, S.ANALYZING)
         run_id = f"run-{vid}-{uuid.uuid4().hex[:8]}"

@@ -148,3 +148,88 @@ def test_한_건_실패가_배치를_죽이지_않는다(queued_store):
     )
     assert len(report.failed) == 1
     assert len(report.analyzed) == 1
+
+
+# ── 요리 도메인 게이트 — 영상 호출 전에 메타만으로 거른다 (decision 008) ──
+
+class FakeDomainJudge:
+    def __init__(self, is_cooking=True, confidence=0.9, error=None):
+        from unbake.filtering.domain import DomainVerdict
+
+        self.verdict = DomainVerdict(is_cooking=is_cooking, confidence=confidence,
+                                     reason="테스트", model="fake", prompt_version="0",
+                                     prompt_hash="h")
+        self.error, self.calls = error, 0
+
+    def judge(self, video_block):
+        self.calls += 1
+        if self.error:
+            raise self.error
+        return self.verdict
+
+
+class CountingGenerator(FakeGenerator):
+    def __init__(self):
+        super().__init__()
+        self.calls = 0
+
+    def extract_candidate(self, *a, **k):
+        self.calls += 1
+        return super().extract_candidate(*a, **k)
+
+
+def test_도메인_탈락은_filtered_out_이고_영상_호출이_없다(queued_store):
+    store, output_dir = queued_store
+    generator = CountingGenerator()
+    report = analyze_queued(
+        store=store, output_dir=output_dir, ports=_ports(generator=generator),
+        meta_fetcher=_meta, count=3, domain_judge=FakeDomainJudge(is_cooking=False),
+    )
+    assert report.off_domain == [(VID, "off_domain: 테스트")]
+    assert report.analyzed == [] and report.failed == []
+    assert store.get(VID)["state"] == S.FILTERED_OUT
+    assert store.get(VID)["reason"] == "off_domain: 테스트"
+    assert generator.calls == 0
+    assert store.list_runs(video_id=VID) == []
+    # 판정은 산출물로 남고, candidate.json 이 없으니 검수 목록에는 안 잡힌다
+    assert (output_dir / VID / "domain-check.json").exists()
+    assert not (output_dir / VID / "candidate.json").exists()
+
+
+def test_도메인_통과는_평소처럼_분석하고_판정_산출물을_남긴다(queued_store):
+    import json
+
+    store, output_dir = queued_store
+    judge = FakeDomainJudge(is_cooking=True, confidence=0.9)
+    report = analyze_queued(
+        store=store, output_dir=output_dir, ports=_ports(), meta_fetcher=_meta, count=3,
+        domain_judge=judge,
+    )
+    assert report.analyzed == [VID] and report.off_domain == []
+    assert judge.calls == 1
+    check = json.loads((output_dir / VID / "domain-check.json").read_text(encoding="utf-8"))
+    assert check["passed"] is True and check["verdict"]["model"] == "fake"
+    assert "도메인 탈락 0건" in report.summary_line()
+
+
+def test_도메인_판정_실패는_통과가_아니라_analyze_failed(queued_store):
+    store, output_dir = queued_store
+    generator = CountingGenerator()
+    report = analyze_queued(
+        store=store, output_dir=output_dir, ports=_ports(generator=generator),
+        meta_fetcher=_meta, count=3,
+        domain_judge=FakeDomainJudge(error=RuntimeError("openrouter 503")),
+    )
+    assert report.analyzed == [] and report.off_domain == []
+    assert len(report.failed) == 1 and "domain_check_error" in report.failed[0][1]
+    assert store.get(VID)["state"] == S.ANALYZE_FAILED
+    assert generator.calls == 0
+
+
+def test_게이트가_없으면_기존과_동일(queued_store):
+    store, output_dir = queued_store
+    report = analyze_queued(
+        store=store, output_dir=output_dir, ports=_ports(), meta_fetcher=_meta, count=3,
+    )
+    assert report.analyzed == [VID]
+    assert not (output_dir / VID / "domain-check.json").exists()

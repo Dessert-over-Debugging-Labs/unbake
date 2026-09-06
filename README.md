@@ -45,20 +45,23 @@ Key properties:
 ## Pipeline
 
 ```
-discover → filter → extract → evaluate → structure → review (human) → publish
+discover → filter → gate → extract → evaluate → structure → review (human) → publish
 ```
 
 Discovery uses the YouTube Data API (quota-aware, two-track search + channel
 backfill). The filter drops non-recipe content and honors channels whose
 descriptions forbid reuse (they are recorded, with evidence, and skipped until
-consent). See [docs/architecture.md](docs/architecture.md) for the full design.
+consent). The **domain gate** is a cheap, text-only "is this a cooking video?"
+judge that runs right before any video call — on every path, including a URL
+you pass by hand — so off-topic videos never reach the expensive extraction.
+See [docs/architecture.md](docs/architecture.md) for the full design.
 
 ## Quickstart
 
 ```bash
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
-cp .env.example .env          # add GEMINI_API_KEY (and YOUTUBE_API_KEY for discovery)
-.venv/bin/pytest              # 212 tests, no network
+cp .env.example .env          # GEMINI_API_KEY · YOUTUBE_API_KEY (discovery) · OPENROUTER_API_KEY (gate)
+.venv/bin/pytest              # 240 tests, no network
 
 unbake evaluate <youtube-url>   # analyze + cross-validate one video → output/<videoId>/
 unbake batch --count 3          # discover → filter → analyze a small batch
@@ -71,9 +74,15 @@ git-ignored; until you create them, the bundled `seeds/*.example.json`
 templates are used. Channels whose descriptions restrict reuse are recorded in
 `seeds/consent-required-channels.json` and skipped until consent is granted.
 
+The domain gate runs on an OpenRouter model by default (set `OPENROUTER_API_KEY`;
+without it the gate is off). `DOMAIN_CHECK=gemini` reuses your Gemini key
+instead, `DOMAIN_CHECK=off` disables it, and `--skip-domain-check` bypasses it
+for one run. Every verdict is saved as `output/<videoId>/domain-check.json`.
+
 Model IDs are configured per role (generator / blind observer / description /
-judge / matcher) in `src/unbake/config.py` and can be overridden with
-`GEMINI_MODEL_*` environment variables — exact IDs only, no `latest` aliases.
+judge / matcher / domain gate) in `src/unbake/config.py` and can be overridden
+with `GEMINI_MODEL_*` and `DOMAIN_MODEL` environment variables — exact IDs only,
+no `latest` aliases.
 
 ## Layout
 
@@ -83,7 +92,7 @@ src/unbake/
 ├── evaluation/   # deterministic verification core (no LLM calls)
 ├── extraction/   # versioned prompts + extraction ports
 ├── filtering/    # candidate filtering, reuse-restriction detection
-├── adapters/     # gemini · youtube · sqlite · naembii (example publish target)
+├── adapters/     # gemini · openrouter · youtube · sqlite · naembii (example publish target)
 ├── workflow/     # orchestration (analyze, batch) over an explicit state machine
 └── review/       # human review server; dashboard/ is the vanilla-JS UI
 ```

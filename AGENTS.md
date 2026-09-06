@@ -33,7 +33,8 @@ Do not break these without a recorded human decision (`docs/decisions/`):
   never mark their own proposal `accepted` — a human does that.
 - Run the relevant tests and `ruff check` before committing.
 - Secrets live in `.env` (never committed). Model IDs have a single source of
-  truth in `src/unbake/config.py` (`DEFAULT_MODELS`), overridable via `GEMINI_MODEL_*`.
+  truth in `src/unbake/config.py` (`DEFAULT_MODELS`), overridable via `GEMINI_MODEL_*`
+  and `DOMAIN_MODEL`.
 
 ## Layout
 

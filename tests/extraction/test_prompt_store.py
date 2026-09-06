@@ -4,6 +4,7 @@ from unbake.extraction.prompt_store import PROMPT_DIR, load_prompt
 
 ALL_PROMPTS = [
     "generator", "blind_extractor", "description_parser", "judge", "matcher", "filter_verdict",
+    "domain_check",
 ]
 
 

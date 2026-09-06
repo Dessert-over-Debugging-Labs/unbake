@@ -40,7 +40,8 @@ ALL_STATES = {
 TRANSITIONS: dict[str, set] = {
     DISCOVERED: {FILTERED_OUT, DEFERRED, QUEUED},
     DEFERRED: {FILTERED_OUT, QUEUED},
-    QUEUED: {ANALYZING, ANALYZE_FAILED},   # 수집 실패는 분석 전에도 탈락 처리
+    # 수집 실패는 분석 전에도 탈락 처리 / filtered_out 은 영상 호출 전 도메인 게이트 탈락
+    QUEUED: {ANALYZING, ANALYZE_FAILED, FILTERED_OUT},
     ANALYZING: {ANALYZE_FAILED, EVALUATING},   # ④평가를 거치지 않는 직행은 없다
     EVALUATING: {EVALUATION_FAILED, PENDING_REVIEW},
     EVALUATION_FAILED: {EVALUATING, REJECTED},     # 재평가 또는 탈락
