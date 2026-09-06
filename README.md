@@ -84,7 +84,9 @@ src/unbake/
 
 `adapters/naembii/` is a working publish adapter for a production recipe
 service — kept as a realistic example of the mapping layer. Extraction and
-evaluation run fully without it.
+evaluation run fully without it. To connect your own backend, see
+[docs/adapters.md](docs/adapters.md) — or let a coding agent assemble the
+adapter for you with the `build-publish-adapter` skill.
 
 ## Beyond recipes
 
