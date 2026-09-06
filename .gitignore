@@ -4,6 +4,8 @@
 # runtime state / artifacts
 output/
 tmp/
+pipeline.db
+*.db
 
 # python
 __pycache__/
