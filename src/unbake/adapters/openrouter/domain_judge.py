@@ -1,18 +1,18 @@
-"""요리 도메인 게이트의 LLM 판정 — filtering.domain.DomainJudgePort 구현.
+"""요리 도메인 게이트의 LLM 판정 — gate.DomainJudgePort 구현.
 
 영상 메타(제목·채널·길이·설명란)만 보고 "요리 영상인가"를 판정한다. 영상은 보지
 않는다 — 그래서 싼 텍스트 모델이면 충분하고, `generate_json`을 가진 클라이언트라면
 OpenRouterClient든 GeminiClient든 그대로 꽂힌다 (DOMAIN_CHECK=gemini).
 
 프롬프트 구성·JSON 계약 검증은 여기(어댑터) 책임이고, 통과/탈락 결정은
-filtering.domain(결정적 코드)이 한다.
+unbake.gate(결정적 코드)가 한다.
 """
 
 from typing import Protocol
 
 from unbake.evaluation.recovery import LlmParseError
 from unbake.extraction.prompt_store import load_prompt
-from unbake.filtering.domain import DomainVerdict
+from unbake.gate import DomainVerdict
 
 
 class JsonClient(Protocol):

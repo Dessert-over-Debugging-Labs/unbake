@@ -6,9 +6,6 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# src layout: src/unbake/config.py → 저장소 루트는 두 단계 위(src/)의 부모
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
 
 def _load_dotenv(path: Path) -> None:
     """의존성 없는 최소 .env 로더 — `KEY=VALUE` 줄만 읽는다.
@@ -90,19 +87,15 @@ class Config:
     openrouter_api_key: str = ""  # 요리 도메인 게이트 (텍스트만) — 없으면 게이트는 꺼진다
     domain_check: str = "off"  # openrouter | gemini | off — 영상 호출 전 도메인 게이트
     models: ModelConfig = field(default_factory=ModelConfig)
-    dev_api_host: str = ""
-    dev_admin_secret: str = ""
-    prod_api_host: str = ""
-    prod_admin_secret: str = ""
-    state_bucket: str = ""     # S3 상태 공유 버킷 (비우면 로컬 전용)
 
-    output_dir: Path = field(default_factory=lambda: PROJECT_ROOT / "output")
-    tmp_dir: Path = field(default_factory=lambda: PROJECT_ROOT / "tmp")
-    db_path: Path = field(default_factory=lambda: PROJECT_ROOT / "pipeline.db")
+    # 산출물 폴더 — UNBAKE_OUTPUT_DIR, 기본은 현재 작업 디렉토리의 ./output
+    output_dir: Path = field(default_factory=lambda: Path.cwd() / "output")
 
     @classmethod
-    def load(cls) -> "Config":
-        _load_dotenv(PROJECT_ROOT / ".env")
+    def load(cls, dotenv: Path | None = None) -> "Config":
+        """환경변수(+ .env)에서 읽는다. dotenv 기본은 현재 작업 디렉토리의 .env — 라이브러리로
+        임포트될 때 호출자의 프로젝트 설정을 읽기 위함이다. 이미 설정된 환경변수가 우선."""
+        _load_dotenv(dotenv if dotenv is not None else Path.cwd() / ".env")
         openrouter_api_key = os.getenv("OPENROUTER_API_KEY", "")
         cfg = cls(
             gemini_api_key=os.getenv("GEMINI_API_KEY", ""),
@@ -112,17 +105,11 @@ class Config:
                 os.getenv("DOMAIN_CHECK"), has_openrouter_key=bool(openrouter_api_key)
             ),
             models=ModelConfig.from_env(),
-            dev_api_host=os.getenv("NAEMBII_DEV_API_HOST", "https://api-dev.naembii.com"),
-            dev_admin_secret=os.getenv("NAEMBII_DEV_ADMIN_SECRET", ""),
-            prod_api_host=os.getenv("NAEMBII_PROD_API_HOST", "https://api.naembii.com"),
-            prod_admin_secret=os.getenv("NAEMBII_PROD_ADMIN_SECRET", ""),
-            state_bucket=os.getenv("NAEMBII_STATE_BUCKET", ""),
+            output_dir=Path(os.getenv("UNBAKE_OUTPUT_DIR") or Path.cwd() / "output"),
         )
         if cfg.domain_check == "gemini" and not os.getenv("DOMAIN_MODEL"):
             # Gemini로 게이트를 돌릴 때 OpenRouter 모델 ID는 무의미 — 판정 모델을 그대로 쓴다
             cfg.models.domain = cfg.models.judge
-        cfg.output_dir.mkdir(exist_ok=True)
-        cfg.tmp_dir.mkdir(exist_ok=True)
         return cfg
 
     def require(self, *names: str) -> None:
