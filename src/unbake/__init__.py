@@ -8,7 +8,7 @@
 Lower level: `unbake.pipeline.analyze_and_evaluate` takes the five ports directly.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.1.0"
 
 from unbake.api import OffDomainError, RecipePorts, make_recipe  # noqa: E402
 from unbake.models import (  # noqa: E402

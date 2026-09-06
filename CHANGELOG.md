@@ -5,7 +5,12 @@ All notable changes to this project are documented here. The format follows
 [SemVer](https://semver.org/) — `SCHEMA_VERSION` in `models/base.py` versions
 the artifact JSON separately.
 
-## [0.2.0] - 2026-09-06
+## [0.1.0] - 2026-09-06
+
+First tagged release. The library ends at the artifacts: `make_recipe(url)`
+runs gate → extract → evaluate and returns (and writes) the artifact set.
+Earlier, untagged history also carried a discovery/review/publishing
+pipeline; that layer now lives outside this package (decision 009).
 
 ### Added
 - `make_recipe(url)` — one-call library entry point; assembles default Gemini
@@ -16,7 +21,7 @@ the artifact JSON separately.
 - `unbake <url>` CLI (single command), `--version`, `-o/--output`.
 - GitHub Actions CI (ruff + pytest on 3.11–3.13).
 
-### Changed
+### Notes
 - Saved and returned artifacts now carry the code-assigned IDs (`s1`, `s1a`,
   `i1`, `a1`, `d1`), so evaluation references resolve against the files alone.
 - The library now ends at the artifacts (decision 009). Discovery, batch
@@ -27,13 +32,3 @@ the artifact JSON separately.
 - `workflow/analyze.py` → `pipeline.py`; `filtering/domain.py` + `workflow/gate.py`
   → `gate.py`.
 
-### Removed
-- `unbake evaluate` / `unbake batch` / `unbake publish-dev` subcommands,
-  `python -m unbake.review`, `seeds/`, `docs/adapters.md`, the
-  `build-publish-adapter` skill, and the `youtube-transcript-api` dependency.
-
-## [0.1.0] - 2026-09-06
-
-Initial public release: dual independent extraction, per-source judging,
-deterministic joins, temporal IoU, and a full operational pipeline
-(discovery → filter → analyze → review → publish).
