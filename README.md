@@ -58,12 +58,18 @@ consent). See [docs/architecture.md](docs/architecture.md) for the full design.
 ```bash
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
 cp .env.example .env          # add GEMINI_API_KEY (and YOUTUBE_API_KEY for discovery)
-.venv/bin/pytest              # 206 tests, no network
+.venv/bin/pytest              # 212 tests, no network
 
 unbake evaluate <youtube-url>   # analyze + cross-validate one video → output/<videoId>/
 unbake batch --count 3          # discover → filter → analyze a small batch
 python -m unbake.review         # review dashboard → http://localhost:5180
 ```
+
+Discovery (`unbake batch`) reads its dish list and channel whitelist from
+`seeds/dishes.json` and `seeds/channels.json`. Those files are yours and
+git-ignored; until you create them, the bundled `seeds/*.example.json`
+templates are used. Channels whose descriptions restrict reuse are recorded in
+`seeds/consent-required-channels.json` and skipped until consent is granted.
 
 Model IDs are configured per role (generator / blind observer / description /
 judge / matcher) in `src/unbake/config.py` and can be overridden with

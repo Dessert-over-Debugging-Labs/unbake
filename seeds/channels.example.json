@@ -1,0 +1,10 @@
+{
+  "comment": "Discovery track B — channel whitelist. Copy to channels.json and add channels as they earn it (e.g. structured ingredient lists in descriptions, high analysis pass rate). addedReason is free text for your own bookkeeping.",
+  "channels": [
+    {
+      "channelId": "UCxxxxxxxxxxxxxxxxxxxxxx",
+      "name": "Example channel",
+      "addedReason": "why this channel is on the list"
+    }
+  ]
+}

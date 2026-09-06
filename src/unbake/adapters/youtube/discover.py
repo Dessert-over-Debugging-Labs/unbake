@@ -28,6 +28,18 @@ SEEDS_DIR = Path(__file__).resolve().parents[4] / "seeds"
 API = "https://www.googleapis.com/youtube/v3"
 
 
+def _load_seed(name: str) -> dict:
+    """seeds/<name>.json을 읽는다 — 없으면 저장소에 든 <name>.example.json으로 대체.
+
+    실제 목록(요리명 사전·채널 화이트리스트)은 운영자 로컬 파일이라 git에 없다
+    (decision 007). 템플릿만 공개되므로 새 clone에서도 탐색이 돌아간다.
+    """
+    path = SEEDS_DIR / f"{name}.json"
+    if not path.exists():
+        path = SEEDS_DIR / f"{name}.example.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _iso_to_ms(duration: str) -> int:
     m = re.fullmatch(r"PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?", duration or "")
     if not m:
@@ -112,7 +124,7 @@ def _get(api_key: str, path: str, **params) -> dict:
 
 def search_track(api_key: str, n_searches: int, rng: random.Random,
                  max_per_search: int = 10) -> list[Candidate]:
-    seeds = json.loads((SEEDS_DIR / "dishes.json").read_text(encoding="utf-8"))
+    seeds = _load_seed("dishes")
     dishes = rng.sample(seeds["dishes"], min(n_searches, len(seeds["dishes"])))
     out: list[Candidate] = []
     for dish in dishes:
@@ -153,7 +165,7 @@ def channel_track(api_key: str, cursors: CursorStore, *,
     커서는 주입받은 CursorStore에 남아 실행 간 이어진다. 끝까지 훑은 채널은
     exhausted로 표시해 헤드만 확인한다.
     """
-    seeds = json.loads((SEEDS_DIR / "channels.json").read_text(encoding="utf-8"))
+    seeds = _load_seed("channels")
     out: list[Candidate] = []
     for ch in seeds["channels"]:
         cid = ch["channelId"]

@@ -132,3 +132,29 @@ def test_round_robin_handles_uneven_groups():
 
 def test_round_robin_empty():
     assert D._round_robin([]) == []
+
+
+# ── seeds 로딩: 실파일은 로컬 전용, 저장소에는 *.example.json 템플릿만 (decision 007) ──
+
+def test_load_seed_falls_back_to_bundled_template(tmp_path, monkeypatch):
+    monkeypatch.setattr(D, "SEEDS_DIR", tmp_path)
+    (tmp_path / "dishes.example.json").write_text(
+        json.dumps({"modifiers": ["레시피"], "dishes": ["김치찌개"]}), encoding="utf-8")
+    assert D._load_seed("dishes")["dishes"] == ["김치찌개"]
+
+
+def test_load_seed_prefers_operator_file_over_template(tmp_path, monkeypatch):
+    monkeypatch.setattr(D, "SEEDS_DIR", tmp_path)
+    (tmp_path / "dishes.example.json").write_text(
+        json.dumps({"modifiers": ["레시피"], "dishes": ["템플릿"]}), encoding="utf-8")
+    (tmp_path / "dishes.json").write_text(
+        json.dumps({"modifiers": ["레시피"], "dishes": ["실운영"]}), encoding="utf-8")
+    assert D._load_seed("dishes")["dishes"] == ["실운영"]
+
+
+def test_bundled_templates_have_the_keys_discovery_reads():
+    """새 clone에서 seeds/*.json 없이도 탐색이 돌아가야 한다 — 템플릿 자체를 검증."""
+    dishes = json.loads((D.SEEDS_DIR / "dishes.example.json").read_text(encoding="utf-8"))
+    channels = json.loads((D.SEEDS_DIR / "channels.example.json").read_text(encoding="utf-8"))
+    assert dishes["dishes"] and dishes["modifiers"]
+    assert all({"channelId", "name"} <= set(c) for c in channels["channels"])
