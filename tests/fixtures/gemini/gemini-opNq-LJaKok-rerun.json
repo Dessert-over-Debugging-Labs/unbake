@@ -1,0 +1,316 @@
+{
+  "videoId": "opNq-LJaKok",
+  "recipe": {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=opNq-LJaKok",
+      "platformVideoId": "opNq-LJaKok",
+      "title": "명절 소불고기, 식초 액젓에 재우세요! 이렇게 만들어 정말 쉽고 맛있어요~",
+      "author": "요리왕비룡 집밥 VLOG",
+      "thumbnailUrl": "https://i.ytimg.com/vi/opNq-LJaKok/hqdefault.jpg",
+      "durationMs": 547000
+    },
+    "dishName": "소불고기",
+    "title": "식초와 액젓으로 감칠맛을 살린 소불고기",
+    "summary": "식초와 멸치액젓으로 밑간하여 고기를 부드럽게 하고 감칠맛을 끌어올린 소불고기 레시피입니다. 배를 직접 갈아 넣어 고급스러운 단맛과 풍부한 국물을 즐길 수 있어요.",
+    "servings": "3인분",
+    "cookTimeMin": 45,
+    "difficulty": "NORMAL",
+    "ingredients": [
+      {
+        "group": "MAIN",
+        "name": "소불고기",
+        "amount": "600g"
+      },
+      {
+        "group": "MAIN",
+        "name": "양파",
+        "amount": "1개"
+      },
+      {
+        "group": "MAIN",
+        "name": "대파",
+        "amount": "1대"
+      },
+      {
+        "group": "MAIN",
+        "name": "팽이버섯",
+        "amount": "1봉"
+      },
+      {
+        "group": "MAIN",
+        "name": "당근",
+        "amount": "영상 참고"
+      },
+      {
+        "group": "MAIN",
+        "name": "배",
+        "amount": "1개"
+      },
+      {
+        "group": "MAIN",
+        "name": "물",
+        "amount": "100ml"
+      },
+      {
+        "group": "SEASONING",
+        "name": "식초",
+        "amount": "2큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "멸치액젓",
+        "amount": "2큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "진간장",
+        "amount": "8큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "맛술",
+        "amount": "4큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "흑설탕",
+        "amount": "2큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "물엿",
+        "amount": "2큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "다진마늘",
+        "amount": "1큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "참기름",
+        "amount": "1큰술"
+      },
+      {
+        "group": "SEASONING",
+        "name": "후추",
+        "amount": "1큰술"
+      }
+    ],
+    "steps": [
+      {
+        "title": "고기 핏물 닦기",
+        "videoStartMs": 78000,
+        "videoEndMs": 90000,
+        "details": [
+          "소불고기 600g을 키친타월에 올려 핏물을 닦아주세요."
+        ]
+      },
+      {
+        "title": "고기 떼어내기",
+        "videoStartMs": 102000,
+        "videoEndMs": 116000,
+        "details": [
+          "핏물을 닦은 고기를 볼에 담아주세요.",
+          "겹쳐진 부분을 한 장씩 떼어내주세요."
+        ]
+      },
+      {
+        "title": "밑간 양념 넣기",
+        "videoStartMs": 134000,
+        "videoEndMs": 145000,
+        "details": [
+          "멸치액젓 2큰술, 식초 2큰술을 넣어주세요."
+        ]
+      },
+      {
+        "title": "고기 버무리기",
+        "videoStartMs": 147000,
+        "videoEndMs": 160000,
+        "details": [
+          "고기에 양념이 잘 배도록 조물조물 버무려주세요.",
+          "밑간을 한 상태로 잠시 둡니다."
+        ]
+      },
+      {
+        "title": "양파·대파 썰기",
+        "videoStartMs": 181000,
+        "videoEndMs": 198000,
+        "details": [
+          "양파 1개는 살짝 두툼하게 채 썰어주세요.",
+          "대파 1대는 어슷하게 썰어주세요."
+        ]
+      },
+      {
+        "title": "팽이버섯 손질",
+        "videoStartMs": 200000,
+        "videoEndMs": 212000,
+        "details": [
+          "팽이버섯 1봉은 밑동을 잘라주세요.",
+          "손으로 먹기 좋게 찢어주세요."
+        ]
+      },
+      {
+        "title": "당근 채썰기",
+        "videoStartMs": 213000,
+        "videoEndMs": 229000,
+        "details": [
+          "당근은 채칼을 이용해 일정한 두께로 채 썰어주세요."
+        ]
+      },
+      {
+        "title": "배 손질하기",
+        "videoStartMs": 239000,
+        "videoEndMs": 257000,
+        "details": [
+          "배 1개는 껍질과 씨를 제거해주세요.",
+          "믹서기에 갈기 좋게 잘게 썰어주세요."
+        ]
+      },
+      {
+        "title": "배 갈기",
+        "videoStartMs": 258000,
+        "videoEndMs": 285000,
+        "details": [
+          "믹서기에 썰어둔 배와 물 100ml를 넣어주세요.",
+          "곱게 갈아 배음료를 만들어주세요."
+        ]
+      },
+      {
+        "title": "양념장 만들기 1",
+        "videoStartMs": 288000,
+        "videoEndMs": 304000,
+        "details": [
+          "볼에 갈아둔 배를 부어주세요.",
+          "진간장 8큰술, 맛술 4큰술을 넣어주세요."
+        ]
+      },
+      {
+        "title": "양념장 만들기 2",
+        "videoStartMs": 305000,
+        "videoEndMs": 322000,
+        "details": [
+          "흑설탕 2큰술, 물엿 2큰술을 넣어주세요.",
+          "다진마늘 1큰술, 참기름 1큰술, 후추 1큰술을 넣어주세요."
+        ]
+      },
+      {
+        "title": "양념장 섞기",
+        "videoStartMs": 323000,
+        "videoEndMs": 343000,
+        "details": [
+          "양념 재료가 잘 어우러지도록 골고루 섞어주세요."
+        ]
+      },
+      {
+        "title": "채소와 양념 넣기",
+        "videoStartMs": 354000,
+        "videoEndMs": 367000,
+        "details": [
+          "밑간해둔 고기에 손질한 채소를 모두 올려주세요.",
+          "만들어둔 양념장을 부어주세요."
+        ]
+      },
+      {
+        "title": "버무려 재우기",
+        "videoStartMs": 368000,
+        "videoEndMs": 381000,
+        "details": [
+          "고기와 채소, 양념을 잘 버무려주세요.",
+          "30분 정도 재워주세요."
+        ]
+      },
+      {
+        "title": "팬에 고기 올리기",
+        "videoStartMs": 382000,
+        "videoEndMs": 400000,
+        "details": [
+          "중불로 달군 팬에 먹을 만큼의 불고기를 올려주세요."
+        ]
+      },
+      {
+        "title": "중불에 볶기",
+        "videoStartMs": 401000,
+        "videoEndMs": 418000,
+        "details": [
+          "고기가 질겨지지 않도록 중불에서 5~7분 정도 볶아주세요.",
+          "딱 익을 정도로만 볶아 마무리합니다."
+        ]
+      }
+    ],
+    "tags": [
+      {
+        "kind": "CUISINE",
+        "name": "한식"
+      },
+      {
+        "kind": "FLAVOR",
+        "name": "달콤"
+      },
+      {
+        "kind": "FLAVOR",
+        "name": "짭짤"
+      },
+      {
+        "kind": "TEMPERATURE",
+        "name": "따뜻한"
+      }
+    ]
+  },
+  "segmentConfidence": 0.95,
+  "changes": [
+    "steps 구간을 자막과 실제 동작에 맞게 세밀하게 조정",
+    "재료 분량을 설명란 기준으로 통일하고 details에 명시",
+    "단계 제목을 9자 이하로 간결하게 수정",
+    "조리 과정을 16개 단계로 세분화하여 5~30초 규칙 준수"
+  ],
+  "tokens": {
+    "pass1": {
+      "promptTokenCount": 56469,
+      "candidatesTokenCount": 2322,
+      "totalTokenCount": 61924,
+      "promptTokensDetails": [
+        {
+          "modality": "TEXT",
+          "tokenCount": 6679
+        },
+        {
+          "modality": "VIDEO",
+          "tokenCount": 49790
+        }
+      ],
+      "thoughtsTokenCount": 3133,
+      "serviceTier": "standard"
+    },
+    "pass2": {
+      "promptTokenCount": 58701,
+      "candidatesTokenCount": 2499,
+      "totalTokenCount": 64527,
+      "cachedContentTokenCount": 50652,
+      "promptTokensDetails": [
+        {
+          "modality": "VIDEO",
+          "tokenCount": 49790
+        },
+        {
+          "modality": "TEXT",
+          "tokenCount": 8911
+        }
+      ],
+      "cacheTokensDetails": [
+        {
+          "modality": "VIDEO",
+          "tokenCount": 42963
+        },
+        {
+          "modality": "TEXT",
+          "tokenCount": 7689
+        }
+      ],
+      "thoughtsTokenCount": 3327,
+      "serviceTier": "standard"
+    }
+  },
+  "elapsedSec": 88.4
+}

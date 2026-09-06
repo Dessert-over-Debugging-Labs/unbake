@@ -1,0 +1,540 @@
+[
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=CgapOjKdo9I",
+      "platformVideoId": "CgapOjKdo9I",
+      "title": "순두부찌개 절대로 실패할 수 없는 1분 초간단 레시피",
+      "author": "1분요리 뚝딱이형",
+      "thumbnailUrl": "https://i.ytimg.com/vi/CgapOjKdo9I/mqdefault.jpg",
+      "durationMs": 59000
+    },
+    "dishName": "순두부찌개",
+    "title": "순두부찌개 절대로 실패할 수 없는 1분 초간단 레시피",
+    "summary": "고추참치로 감칠맛을 빠르게 잡고, 순두부와 계란을 넣어 몽글몽글하게 끓이는 1분 초간단 순두부찌개예요. 파기름을 먼저 내 국물 맛을 자연스럽게 채웁니다.",
+    "servings": "2인분",
+    "cookTimeMin": 15,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "순두부", "amount": "1팩" },
+      { "group": "MAIN", "name": "고추참치", "amount": "1캔" },
+      { "group": "MAIN", "name": "양파", "amount": "1/2개" },
+      { "group": "MAIN", "name": "애호박", "amount": "조금" },
+      { "group": "MAIN", "name": "대파", "amount": "조금" },
+      { "group": "MAIN", "name": "계란", "amount": "1개" },
+      { "group": "MAIN", "name": "버섯", "amount": "조금" },
+      { "group": "SEASONING", "name": "식용유", "amount": "2숟갈" },
+      { "group": "SEASONING", "name": "고춧가루", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "멸치액젓", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "국간장", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "후추", "amount": "조금" }
+    ],
+    "steps": [
+      {
+        "title": "파기름 내기",
+        "videoStartMs": 5000,
+        "videoEndMs": 14000,
+        "details": ["대파를 송송 썬다", "냄비에 식용유 2숟갈을 두른다", "대파를 넣고 향이 올라올 때까지 볶는다"]
+      },
+      {
+        "title": "고추참치 볶기",
+        "videoStartMs": 14000,
+        "videoEndMs": 23000,
+        "details": ["고추참치 한 캔을 넣는다", "고춧가루 1숟갈을 더한다", "참치와 양념이 섞이도록 볶는다"]
+      },
+      {
+        "title": "양파·순두부 넣기",
+        "videoStartMs": 23000,
+        "videoEndMs": 38000,
+        "details": ["양파 반 개를 넣고 투명해질 때까지 볶는다", "순두부를 큼직하게 넣는다", "참치캔 한 캔 분량의 물을 붓는다"]
+      },
+      {
+        "title": "애호박·간 맞추기",
+        "videoStartMs": 38000,
+        "videoEndMs": 50000,
+        "details": ["애호박을 조금 썰어 넣는다", "멸치액젓·국간장을 1숟갈씩 넣는다", "남는 버섯이 있으면 조금 올린다"]
+      },
+      {
+        "title": "계란·마무리",
+        "videoStartMs": 50000,
+        "videoEndMs": 59000,
+        "details": ["계란 하나를 넣는다", "후추를 톡톡 뿌린다", "대파를 올려 마무리한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "한식" },
+      { "kind": "FLAVOR", "name": "얼큰" },
+      { "kind": "FLAVOR", "name": "매콤" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "국물요리" },
+      { "kind": "ETC", "name": "초간단" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=VvM59BXz6Bw",
+      "platformVideoId": "VvM59BXz6Bw",
+      "title": "마늘 향 가득 스페인식 감바스 알 아히요",
+      "author": "성시경",
+      "thumbnailUrl": "https://i.ytimg.com/vi/VvM59BXz6Bw/mqdefault.jpg",
+      "durationMs": 355000
+    },
+    "dishName": "감바스 알 아히요",
+    "title": "마늘 향 가득 스페인식 감바스 알 아히요",
+    "summary": "새우와 마늘을 올리브유에 자글자글 끓여내는 스페인식 타파스예요. 표고버섯으로 감칠맛을 더하고, 남은 기름은 바게트에 찍어 먹으면 별미입니다.",
+    "servings": "2인분",
+    "cookTimeMin": 25,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "새우", "amount": "12마리" },
+      { "group": "MAIN", "name": "마늘", "amount": "10쪽" },
+      { "group": "MAIN", "name": "표고버섯", "amount": "2개" },
+      { "group": "MAIN", "name": "파슬리", "amount": "조금" },
+      { "group": "MAIN", "name": "바게트", "amount": "1/2개" },
+      { "group": "SEASONING", "name": "올리브유", "amount": "1컵" },
+      { "group": "SEASONING", "name": "페페론치노", "amount": "5개" },
+      { "group": "SEASONING", "name": "소금", "amount": "약간" },
+      { "group": "SEASONING", "name": "후추", "amount": "약간" },
+      { "group": "SEASONING", "name": "발사믹식초", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "새우 손질",
+        "videoStartMs": 31000,
+        "videoEndMs": 90000,
+        "details": ["새우 껍질을 살짝 벌리고 꼬리를 뗀다", "소주 조금과 소금으로 밑간한다", "잠깐 재워 둔다"]
+      },
+      {
+        "title": "재료 준비",
+        "videoStartMs": 90000,
+        "videoEndMs": 135000,
+        "details": ["표고버섯을 원하는 모양으로 썬다", "마늘을 편으로 썬다", "파슬리를 잘게 다진다"]
+      },
+      {
+        "title": "마늘 기름 내기",
+        "videoStartMs": 135000,
+        "videoEndMs": 175000,
+        "details": ["팬에 올리브유를 넉넉히 붓는다", "마늘을 넣고 약불에서 천천히 익힌다", "밤색이 되기 전까지만 향을 낸다"]
+      },
+      {
+        "title": "새우·버섯 익히기",
+        "videoStartMs": 175000,
+        "videoEndMs": 250000,
+        "details": ["소금·후추로 기름에 간을 한다", "표고버섯과 새우를 넣는다", "페페론치노를 넣어 매콤함을 더한다"]
+      },
+      {
+        "title": "간·마무리",
+        "videoStartMs": 250000,
+        "videoEndMs": 355000,
+        "details": ["소금과 젓갈로 감칠맛을 맞춘다", "발사믹식초를 살짝 넣어 산미를 더한다", "파슬리를 올리고 새우가 덜 익었을 때 마무리한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "스페인" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "FLAVOR", "name": "짭짤" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "술안주" },
+      { "kind": "ETC", "name": "홈파티" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=eJekYxjFewM",
+      "platformVideoId": "eJekYxjFewM",
+      "title": "간단하고 쉬운 아보카도 계란 비빔밥",
+      "author": "요리시간 Cooking Time",
+      "thumbnailUrl": "https://i.ytimg.com/vi/eJekYxjFewM/mqdefault.jpg",
+      "durationMs": 85000
+    },
+    "dishName": "아보카도 비빔밥",
+    "title": "간단하고 쉬운 아보카도 계란 비빔밥",
+    "summary": "크리미한 아보카도와 반숙 계란을 밥에 올려 와사비 간장에 쓱쓱 비벼 먹는 초간단 한 그릇이에요. 재료가 단순해 바쁜 날 한 끼로 제격입니다.",
+    "servings": "1인분",
+    "cookTimeMin": 10,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "아보카도", "amount": "1/2개" },
+      { "group": "MAIN", "name": "밥", "amount": "1공기" },
+      { "group": "MAIN", "name": "달걀", "amount": "1개" },
+      { "group": "MAIN", "name": "양파", "amount": "1/2개" },
+      { "group": "MAIN", "name": "어린잎 채소", "amount": "조금" },
+      { "group": "MAIN", "name": "김", "amount": "1장" },
+      { "group": "MAIN", "name": "통깨", "amount": "조금" },
+      { "group": "SEASONING", "name": "간장", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "와사비", "amount": "약간" },
+      { "group": "SEASONING", "name": "크러쉬드 레드페퍼", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "재료 손질",
+        "videoStartMs": 4000,
+        "videoEndMs": 20000,
+        "details": ["아보카도를 반 갈라 슬라이스한다", "양파를 얇게 채 썬다", "어린잎 채소와 김을 준비한다"]
+      },
+      {
+        "title": "계란 익히기",
+        "videoStartMs": 20000,
+        "videoEndMs": 40000,
+        "details": ["팬을 달궈 기름을 두른다", "계란을 반숙으로 부친다"]
+      },
+      {
+        "title": "그릇에 담기",
+        "videoStartMs": 40000,
+        "videoEndMs": 58000,
+        "details": ["밥 위에 아보카도를 올린다", "어린잎 채소와 계란을 얹는다", "김과 통깨를 뿌린다"]
+      },
+      {
+        "title": "양념·비비기",
+        "videoStartMs": 58000,
+        "videoEndMs": 85000,
+        "details": ["간장에 와사비를 풀어 비빔장을 만든다", "크러쉬드 레드페퍼를 더한다", "비빔장을 뿌려 쓱쓱 비벼 완성한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "한식" },
+      { "kind": "FLAVOR", "name": "담백" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "한그릇" },
+      { "kind": "ETC", "name": "초간단" },
+      { "kind": "ETC", "name": "자취요리" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=V9KP9Qvb3lI",
+      "platformVideoId": "V9KP9Qvb3lI",
+      "title": "크림 없이 진한 정통 로마식 까르보나라",
+      "author": "Chef Sunny",
+      "thumbnailUrl": "https://i.ytimg.com/vi/V9KP9Qvb3lI/mqdefault.jpg",
+      "durationMs": 355000
+    },
+    "dishName": "까르보나라",
+    "title": "크림 없이 진한 정통 로마식 까르보나라",
+    "summary": "크림 없이 계란 노른자와 페코리노·파르미지아노 치즈만으로 진하게 유화하는 정통 로마식 까르보나라예요. 관찰레의 지방을 천천히 녹여내는 것이 맛의 핵심입니다.",
+    "servings": "2인분",
+    "cookTimeMin": 30,
+    "difficulty": "NORMAL",
+    "ingredients": [
+      { "group": "MAIN", "name": "스파게티면", "amount": "200g" },
+      { "group": "MAIN", "name": "관찰레", "amount": "80g" },
+      { "group": "MAIN", "name": "달걀", "amount": "1개" },
+      { "group": "MAIN", "name": "계란 노른자", "amount": "1개" },
+      { "group": "MAIN", "name": "통후추", "amount": "넉넉히" },
+      { "group": "SEASONING", "name": "페코리노", "amount": "40g" },
+      { "group": "SEASONING", "name": "파르미지아노", "amount": "20g" },
+      { "group": "SEASONING", "name": "소금", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "관찰레 손질",
+        "videoStartMs": 30000,
+        "videoEndMs": 55000,
+        "details": ["관찰레를 엄지손톱 크기로 썬다"]
+      },
+      {
+        "title": "계란 소스 만들기",
+        "videoStartMs": 55000,
+        "videoEndMs": 120000,
+        "details": ["달걀 1개와 노른자 1개를 푼다", "페코리노와 파르미지아노를 2:1로 갈아 넣는다", "후추를 넉넉히 갈아 섞어 둔다"]
+      },
+      {
+        "title": "관찰레 굽기",
+        "videoStartMs": 125000,
+        "videoEndMs": 180000,
+        "details": ["센불에 노릇하게 굽는다", "약불로 줄여 지방을 천천히 녹인다", "나온 기름 2~3스푼을 소스에 섞어 유화한다"]
+      },
+      {
+        "title": "면 삶기",
+        "videoStartMs": 180000,
+        "videoEndMs": 245000,
+        "details": ["소금 넣은 물에 스파게티를 삶는다", "면수 2~3스푼을 소스에 섞는다", "면은 완전히 익힌다"]
+      },
+      {
+        "title": "유화·마무리",
+        "videoStartMs": 245000,
+        "videoEndMs": 355000,
+        "details": ["따뜻한 물(65도)에 중탕하며 소스와 섞는다", "계속 저어 크림처럼 유화한다", "관찰레를 섞고 접시에 담아 후추를 듬뿍 올린다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "이탈리아" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "FLAVOR", "name": "짭짤" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "파스타" },
+      { "kind": "ETC", "name": "정통레시피" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=sIBG0KjOcBs",
+      "platformVideoId": "sIBG0KjOcBs",
+      "title": "노오븐 딸기 티라미수 (정통 이탈리아 레시피)",
+      "author": "세토리 setory",
+      "thumbnailUrl": "https://i.ytimg.com/vi/sIBG0KjOcBs/mqdefault.jpg",
+      "durationMs": 405000
+    },
+    "dishName": "딸기 티라미수",
+    "title": "노오븐 딸기 티라미수 (정통 이탈리아 레시피)",
+    "summary": "오븐 없이 딸기와 마스카포네·머랭 크림을 층층이 쌓아 굳히는 이탈리아 정통 티라미수예요. 진한 커피향과 중간중간 씹히는 상큼한 딸기의 조화가 포인트입니다.",
+    "servings": "4인분",
+    "cookTimeMin": 40,
+    "difficulty": "NORMAL",
+    "ingredients": [
+      { "group": "MAIN", "name": "딸기", "amount": "2컵" },
+      { "group": "MAIN", "name": "달걀", "amount": "3개" },
+      { "group": "MAIN", "name": "마스카포네", "amount": "250g" },
+      { "group": "MAIN", "name": "생크림", "amount": "200ml" },
+      { "group": "MAIN", "name": "핑거쿠키", "amount": "12개" },
+      { "group": "SEASONING", "name": "설탕", "amount": "70g" },
+      { "group": "SEASONING", "name": "바닐라익스트랙", "amount": "약간" },
+      { "group": "SEASONING", "name": "커피가루", "amount": "2숟갈" },
+      { "group": "SEASONING", "name": "코코아파우더", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "딸기 손질",
+        "videoStartMs": 30000,
+        "videoEndMs": 115000,
+        "details": ["딸기를 씻어 물기를 제거한다", "용기에 맞는 크기로 자른다", "토핑용 딸기를 따로 남긴다"]
+      },
+      {
+        "title": "노른자 살균",
+        "videoStartMs": 115000,
+        "videoEndMs": 170000,
+        "details": ["노른자에 설탕을 넣어 섞는다", "중탕물에 올려 70도 이상으로 살균한다", "연한 노란색이 될 때까지 젓는다"]
+      },
+      {
+        "title": "마스카포네 섞기",
+        "videoStartMs": 170000,
+        "videoEndMs": 195000,
+        "details": ["바닐라익스트랙을 넣는다", "마스카포네를 최소한으로 살살 섞는다"]
+      },
+      {
+        "title": "생크림 섞기",
+        "videoStartMs": 195000,
+        "videoEndMs": 220000,
+        "details": ["생크림을 80%까지 휘핑한다", "노른자 크림에 넣어 섞는다"]
+      },
+      {
+        "title": "머랭·크림 완성",
+        "videoStartMs": 220000,
+        "videoEndMs": 250000,
+        "details": ["흰자에 설탕을 나눠 넣어 머랭을 올린다", "머랭을 크림에 반씩 나눠 섞는다", "부드러운 크림을 완성한다"]
+      },
+      {
+        "title": "핑거쿠키 깔기",
+        "videoStartMs": 250000,
+        "videoEndMs": 300000,
+        "details": ["따뜻한 물에 커피가루·설탕을 풀어 커피액을 만든다", "핑거쿠키를 커피액에 적신다", "용기 바닥에 깐다"]
+      },
+      {
+        "title": "층 쌓기",
+        "videoStartMs": 300000,
+        "videoEndMs": 355000,
+        "details": ["벽면에 반 자른 딸기를 세운다", "크림을 채우고 중간에 딸기를 넣는다", "다시 크림으로 덮는다"]
+      },
+      {
+        "title": "냉장·마무리",
+        "videoStartMs": 355000,
+        "videoEndMs": 405000,
+        "details": ["코코아파우더를 뿌린다", "냉장고에서 충분히 굳힌다", "토핑 딸기를 올려 완성한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "이탈리아" },
+      { "kind": "FLAVOR", "name": "달콤" },
+      { "kind": "FLAVOR", "name": "상큼" },
+      { "kind": "TEMPERATURE", "name": "차가운" },
+      { "kind": "ETC", "name": "디저트" },
+      { "kind": "ETC", "name": "노오븐" },
+      { "kind": "ETC", "name": "홈베이킹" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=vHU4_QbslRA",
+      "platformVideoId": "vHU4_QbslRA",
+      "title": "10분이면 완성되는 명란 버터 파스타",
+      "author": "맘스레시피",
+      "thumbnailUrl": "https://i.ytimg.com/vi/vHU4_QbslRA/mqdefault.jpg",
+      "durationMs": 210000
+    },
+    "dishName": "명란 파스타",
+    "title": "10분이면 완성되는 명란 버터 파스타",
+    "summary": "명란과 마늘, 올리브유만으로 감칠맛을 낸 초간단 오일 파스타예요. 튜브형 명란젓으로도 쉽게 만들 수 있어 혼밥이나 술안주로 제격입니다.",
+    "servings": "2인분",
+    "cookTimeMin": 15,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "스파게티면", "amount": "200g" },
+      { "group": "MAIN", "name": "명란", "amount": "10cm 1개" },
+      { "group": "MAIN", "name": "마늘", "amount": "10알" },
+      { "group": "MAIN", "name": "마늘쫑", "amount": "약간" },
+      { "group": "SEASONING", "name": "올리브유", "amount": "약간" },
+      { "group": "SEASONING", "name": "소금", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "재료 손질",
+        "videoStartMs": 6000,
+        "videoEndMs": 35000,
+        "details": ["마늘을 편으로 썬다", "마늘쫑을 잘게 썬다", "명란은 껍질을 벗겨 알만 발라낸다"]
+      },
+      {
+        "title": "마늘 기름 내기",
+        "videoStartMs": 38000,
+        "videoEndMs": 90000,
+        "details": ["팬에 올리브유를 두른다", "마늘과 마늘쫑을 넣는다", "노릇해질 때까지 볶는다"]
+      },
+      {
+        "title": "명란·면 볶기",
+        "videoStartMs": 90000,
+        "videoEndMs": 150000,
+        "details": ["삶아 둔 면을 넣는다", "명란과 함께 가볍게 볶는다", "면수를 조금 넣어 촉촉하게 만든다"]
+      },
+      {
+        "title": "간·마무리",
+        "videoStartMs": 150000,
+        "videoEndMs": 210000,
+        "details": ["모자란 간은 소금으로 맞춘다", "마늘쫑을 올려 마무리한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "퓨전" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "FLAVOR", "name": "짭짤" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "파스타" },
+      { "kind": "ETC", "name": "초간단" },
+      { "kind": "ETC", "name": "술안주" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=l7nGCJeAqjw",
+      "platformVideoId": "l7nGCJeAqjw",
+      "title": "우유로 만드는 초간단 로제떡볶이",
+      "author": "뚜비두밥 맛있는밥",
+      "thumbnailUrl": "https://i.ytimg.com/vi/l7nGCJeAqjw/mqdefault.jpg",
+      "durationMs": 16000
+    },
+    "dishName": "로제떡볶이",
+    "title": "우유로 만드는 초간단 로제떡볶이",
+    "summary": "우유로 부드럽게, 고추장과 토마토소스로 매콤달콤하게 끓여내는 초간단 로제떡볶이예요. 떡·어묵·소세지·베이컨을 한 번에 넣고 끓이기만 하면 완성됩니다.",
+    "servings": "2인분",
+    "cookTimeMin": 10,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "떡", "amount": "두 주먹" },
+      { "group": "MAIN", "name": "어묵", "amount": "약간" },
+      { "group": "MAIN", "name": "소세지", "amount": "약간" },
+      { "group": "MAIN", "name": "베이컨", "amount": "약간" },
+      { "group": "SEASONING", "name": "우유", "amount": "300mL" },
+      { "group": "SEASONING", "name": "고추장", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "고춧가루", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "토마토소스", "amount": "3숟갈" },
+      { "group": "SEASONING", "name": "설탕", "amount": "1숟갈" },
+      { "group": "SEASONING", "name": "다시다", "amount": "약간" }
+    ],
+    "steps": [
+      {
+        "title": "소스 만들기",
+        "videoStartMs": 2000,
+        "videoEndMs": 9000,
+        "details": ["프라이팬에 우유 300mL를 붓는다", "고춧가루·고추장·토마토소스·설탕·다시다를 넣는다", "고루 저어 로제 소스를 만든다"]
+      },
+      {
+        "title": "재료 넣기",
+        "videoStartMs": 9000,
+        "videoEndMs": 12000,
+        "details": ["떡 두 주먹을 넣는다", "어묵·소세지·베이컨을 넣는다"]
+      },
+      {
+        "title": "끓여 완성",
+        "videoStartMs": 12000,
+        "videoEndMs": 16000,
+        "details": ["7분간 끓인다", "국물이 자작하게 쫄아들면 완성한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "한식" },
+      { "kind": "FLAVOR", "name": "매콤" },
+      { "kind": "FLAVOR", "name": "달콤" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "분식" },
+      { "kind": "ETC", "name": "초간단" }
+    ]
+  },
+  {
+    "video": {
+      "platform": "YOUTUBE",
+      "url": "https://www.youtube.com/watch?v=vlPqkuHIdCc",
+      "platformVideoId": "vlPqkuHIdCc",
+      "title": "달콤 고소한 콘치즈 불닭볶음면",
+      "author": "자취요리신 simple cooking",
+      "thumbnailUrl": "https://i.ytimg.com/vi/vlPqkuHIdCc/mqdefault.jpg",
+      "durationMs": 55000
+    },
+    "dishName": "콘치즈 불닭볶음면",
+    "title": "달콤 고소한 콘치즈 불닭볶음면",
+    "summary": "불닭볶음면에 옥수수·모짜렐라·마요네즈로 만든 콘치즈 소스를 더해 매운맛을 달콤하고 고소하게 잡은 유행 레시피예요.",
+    "servings": "2인분",
+    "cookTimeMin": 10,
+    "difficulty": "EASY",
+    "ingredients": [
+      { "group": "MAIN", "name": "불닭볶음면", "amount": "2봉지" },
+      { "group": "MAIN", "name": "옥수수콘", "amount": "4큰술" },
+      { "group": "MAIN", "name": "모짜렐라 치즈", "amount": "4큰술" },
+      { "group": "MAIN", "name": "메추리알", "amount": "적당량" },
+      { "group": "SEASONING", "name": "마요네즈", "amount": "4큰술" },
+      { "group": "SEASONING", "name": "설탕", "amount": "1큰술" },
+      { "group": "SEASONING", "name": "동봉 후레이크", "amount": "적당량" },
+      { "group": "SEASONING", "name": "물", "amount": "4컵" }
+    ],
+    "steps": [
+      {
+        "title": "콘치즈 소스 만들기",
+        "videoStartMs": 20000,
+        "videoEndMs": 30000,
+        "details": ["옥수수콘·모짜렐라 치즈를 4스푼씩 넣는다", "마요네즈 4스푼·설탕 1스푼을 넣는다", "메추리알을 넣고 골고루 섞는다"]
+      },
+      {
+        "title": "스프 끓이기",
+        "videoStartMs": 30000,
+        "videoEndMs": 37000,
+        "details": ["후라이팬에 물 4컵을 붓는다", "불닭 액상 스프 2개를 넣고 끓인다"]
+      },
+      {
+        "title": "면 삶기",
+        "videoStartMs": 37000,
+        "videoEndMs": 45000,
+        "details": ["면 2개를 넣는다", "정확히 5분간 끓인다"]
+      },
+      {
+        "title": "콘치즈 올려 마무리",
+        "videoStartMs": 45000,
+        "videoEndMs": 55000,
+        "details": ["약불로 줄이고 콘치즈를 올린다", "뚜껑을 덮고 1분간 치즈를 녹인다", "불닭 후레이크를 뿌려 완성한다"]
+      }
+    ],
+    "tags": [
+      { "kind": "CUISINE", "name": "한식" },
+      { "kind": "FLAVOR", "name": "매콤" },
+      { "kind": "FLAVOR", "name": "달콤" },
+      { "kind": "FLAVOR", "name": "고소" },
+      { "kind": "TEMPERATURE", "name": "따뜻한" },
+      { "kind": "ETC", "name": "라면요리" },
+      { "kind": "ETC", "name": "자취요리" }
+    ]
+  }
+]

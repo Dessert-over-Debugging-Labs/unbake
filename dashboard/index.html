@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>냄비 레시피 검수 대시보드</title>
+<link rel="stylesheet" href="css/dashboard.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo"><i data-lucide="chef-hat"></i><div><b>냄비 검수</b><small>recipe-agent v2</small></div></div>
+  <nav class="nav-states" id="navStates"></nav>
+  <div class="sidebar-foot">
+    <small class="data-note">데이터: pipeline.db + output/ 산출물<br>
+      검수는 사람 게이트 — 자동 등록 없음.<br>등록(publish) 배선은 M3 후속.</small>
+  </div>
+</aside>
+
+<main class="main">
+
+  <!-- 목록 뷰 -->
+  <section id="listView">
+    <header class="list-head">
+      <h1 id="listTitle">전체</h1>
+      <span class="list-count" id="listCount"></span>
+    </header>
+    <div class="card-grid" id="cardGrid"></div>
+  </section>
+
+  <!-- 검수 뷰 -->
+  <section id="reviewView" hidden>
+    <header class="review-head">
+      <button class="ic-btn" id="backBtn" title="목록으로"><i data-lucide="arrow-left"></i></button>
+      <div class="review-title">
+        <b id="rvDish"></b>
+        <small id="rvVideoTitle"></small>
+      </div>
+      <span class="state-badge" id="rvState"></span>
+      <div class="review-actions">
+        <button class="ghost-btn" id="jsonBtn"><i data-lucide="braces"></i>JSON</button>
+        <button class="act-btn reject" id="rejectBtn"><i data-lucide="x"></i>반려</button>
+        <button class="act-btn approve" id="approveBtn"><i data-lucide="check"></i>승인</button>
+        <button class="act-btn publish" id="publishBtn" hidden><i data-lucide="upload-cloud"></i>dev 등록</button>
+        <button class="act-btn promote" id="promoteBtn" hidden><i data-lucide="rocket"></i>prod 등록</button>
+      </div>
+    </header>
+
+    <!-- untracked/산출물 없음 안내 -->
+    <div class="rv-note" id="rvNote" hidden></div>
+
+    <!-- summary 카운트 헤더 — 종합 점수 없음, 오류 종류별 카운트 나란히 (불가침) -->
+    <div class="sum-head" id="sumHead"></div>
+
+    <div class="review-grid">
+      <!-- 좌: 영상 + 타임라인 + 평가 패널 + 편집 -->
+      <div class="review-left">
+        <div class="player-box"><div id="ytPlayer"></div></div>
+        <div class="timeline-wrap">
+          <div class="timeline" id="timeline"></div>
+          <div class="timeline-meta">
+            <span id="tlNow">0:00</span>
+            <span class="tl-legend"><i class="lg-seg"></i>구간 <i class="lg-gap"></i>갭(미커버)</span>
+            <label class="loop-toggle"><input type="checkbox" id="loopChk">구간 반복</label>
+            <span id="tlDur">0:00</span>
+          </div>
+        </div>
+
+        <div class="panel" id="claimPanel">
+          <div class="panel-title"><i data-lucide="scale"></i>claim 판정 행렬
+            <small>행을 클릭하면 판정 사유·근거 fact가 펼쳐집니다</small></div>
+          <div class="matrix-wrap" id="claimMatrix"></div>
+        </div>
+
+        <div class="panel" id="matchPanel">
+          <div class="panel-title"><i data-lucide="git-compare"></i>단계 매칭 (A 세부단계 ↔ B 동작)
+            <small>action을 클릭하면 해당 구간으로 점프</small></div>
+          <div id="matchList"></div>
+        </div>
+
+        <div class="panel" id="temporalPanel">
+          <div class="panel-title"><i data-lucide="timer"></i>temporal (대단계 구간 vs 동작 span)
+            <small id="temporalMeta"></small></div>
+          <div id="temporalList"></div>
+        </div>
+
+        <div class="panel" id="omissionPanel">
+          <div class="panel-title"><i data-lucide="search-x"></i>누락 후보 · 검증 이슈
+            <small>기록·표시만 — 자동 탈락 기준이 아닙니다</small></div>
+          <div id="omissionList"></div>
+        </div>
+
+        <div class="panel editor-panel" id="editorPanel">
+          <div class="panel-title"><i data-lucide="pencil-line"></i>candidate 편집
+            <small>저장하면 새 revision — 기존 산출물은 덮어쓰지 않습니다</small></div>
+          <div class="save-bar" id="saveBar" hidden>
+            <span class="save-note" id="saveNote">수정됨 — 저장하지 않으면 승인 대상에 반영되지 않습니다</span>
+            <button class="ghost-btn" id="revertBtn"><i data-lucide="rotate-ccw"></i>되돌리기</button>
+            <button class="act-btn revise" id="saveBtn"><i data-lucide="save"></i>저장 → 새 revision</button>
+          </div>
+          <div id="editorBody"></div>
+        </div>
+
+        <div class="panel" id="revisionPanel">
+          <div class="panel-title"><i data-lucide="history"></i>revision 체인
+            <small>승인 버튼은 항상 최신 revision을 대상으로 합니다</small></div>
+          <div id="revisionList"></div>
+        </div>
+      </div>
+
+      <!-- 우: 앱 프리뷰 (폰 프레임) -->
+      <div class="review-right">
+        <div class="preview-tabs">
+          <button class="ptab active" data-tab="detail">상세 화면</button>
+          <button class="ptab" data-tab="cook">조리 모드</button>
+        </div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <!-- 상세 프리뷰 -->
+            <div class="pv" id="pvDetail">
+              <div class="pv-hero"><img id="pvThumb" alt=""><span class="yt-chip"><i data-lucide="youtube"></i>YouTube</span></div>
+              <div class="pv-body">
+                <h2 id="pvTitle"></h2>
+                <p class="pv-summary" id="pvSummary"></p>
+                <div class="pv-meta">
+                  <div class="chip"><i data-lucide="timer"></i><div class="v" id="pvTime"></div><div class="k">조리시간</div></div>
+                  <div class="chip"><i data-lucide="users"></i><div class="v" id="pvServings"></div><div class="k">분량</div></div>
+                  <div class="chip"><i data-lucide="gauge"></i><div class="v" id="pvDiff"></div><div class="k">난이도</div></div>
+                </div>
+                <div class="pv-sec" id="pvIngTitle">재료</div>
+                <div id="pvIngs"></div>
+                <div class="pv-sec">레시피</div>
+                <div id="pvSteps"></div>
+                <div class="pv-tags" id="pvTags"></div>
+              </div>
+              <div class="pv-cta"><button><i data-lucide="chef-hat"></i>요리 시작하기</button></div>
+            </div>
+            <!-- 조리 모드 프리뷰 -->
+            <div class="pv dark" id="pvCook" hidden>
+              <div class="cook-video-slot">
+                <img id="cookThumb" alt="">
+                <div class="cook-video-note"><i data-lucide="monitor-play"></i>좌측 플레이어와 연동</div>
+                <div class="cook-video-time" id="cookNow">0:00</div>
+              </div>
+              <div class="cook-progress" id="cookProgress"></div>
+              <div class="cook-track-wrap"><div class="cook-track" id="cookTrack"></div></div>
+              <div class="cook-foot">카드 클릭·휠 = 단계 이동 → 영상 구간 점프</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- JSON 다이얼로그 -->
+<dialog id="jsonDlg">
+  <div class="dlg-head"><b>RecipeCandidate JSON (편집본)</b><button class="ic-btn" id="jsonClose"><i data-lucide="x"></i></button></div>
+  <pre id="jsonPre"></pre>
+</dialog>
+
+<!-- 반려 다이얼로그 -->
+<dialog id="rejectDlg">
+  <div class="dlg-head"><b>반려 사유</b><button class="ic-btn" id="rejectClose"><i data-lucide="x"></i></button></div>
+  <textarea id="rejectReason" rows="4" placeholder="예: 3단계 구간이 실제 조리 내용과 어긋남"></textarea>
+  <div class="dlg-actions"><button class="act-btn reject" id="rejectConfirm">반려 확정</button></div>
+</dialog>
+
+<script src="js/data.js"></script>
+<script src="js/player.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
