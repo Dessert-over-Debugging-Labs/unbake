@@ -1,7 +1,7 @@
 # 006. Publish adapters: neutral contract + assembly kit, naembii as reference
 
 - Date: 2026-09-06
-- Status: accepted
+- Status: superseded by 009
 - Decided by: human (on agent proposal)
 
 ## Decision

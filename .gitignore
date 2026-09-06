@@ -7,10 +7,6 @@ tmp/
 pipeline.db
 *.db
 
-# operator-local seed lists (discovery whitelist, consent registry)
-seeds/*.json
-!seeds/*.example.json
-
 # python
 __pycache__/
 *.pyc

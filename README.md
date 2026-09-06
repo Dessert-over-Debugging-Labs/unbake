@@ -1,8 +1,21 @@
 # unbake
 
-Extract structured recipes from YouTube cooking videos — ingredients, amounts,
-steps, and per-step timestamps. Every claim is cross-checked against the video.
-No downloads, just a URL.
+YouTube cooking video in, cross-verified structured recipe out — ingredients,
+amounts, steps, sub-steps, and per-step timestamps. Every claim is checked
+against the video itself. No downloads, just a URL.
+
+```python
+from unbake import make_recipe
+
+artifacts = make_recipe("https://www.youtube.com/watch?v=U9MF9r1lLTg")
+artifacts.candidate.ingredients     # [CandidateIngredient(name='치즈', amount='1컵', ...), ...]
+artifacts.candidate.steps           # [CandidateStep(step_id='s1', title='...', start_ms=..., ...)]
+artifacts.evaluation.summary        # contradictions, source conflicts, temporal IoU, ...
+```
+
+```bash
+unbake https://www.youtube.com/watch?v=U9MF9r1lLTg   # same thing from the shell → ./output/<videoId>/
+```
 
 ## Why another recipe extractor?
 
@@ -33,77 +46,110 @@ said *"just a drizzle"*. Because the audio judge and the visual judge can't see
 each other, the disagreement survives to the report as a `CONFLICT` for a human
 to settle — instead of a model quietly picking one.
 
-Key properties:
-
 - **IDs are assigned by code**, never by a model; every model reference is validated.
 - **The blind observer can't cheat** — its function signature accepts only a video URL.
 - **No composite score.** Contradictions, order conflicts, and unverified
   segments stay visible as separate counts.
-- **Nothing is published without human approval.** Edits are append-only
-  revisions; production publishing is a human button in the review dashboard.
+- **Nothing is silently fixed.** Invalid model output becomes a recorded
+  validation issue, and every call is logged with model ID, prompt version, and
+  token usage.
 
-## Pipeline
-
-```
-discover → filter → extract → evaluate → structure → review (human) → publish
-```
-
-Discovery uses the YouTube Data API (quota-aware, two-track search + channel
-backfill). The filter drops non-recipe content and honors channels whose
-descriptions forbid reuse (they are recorded, with evidence, and skipped until
-consent). See [docs/architecture.md](docs/architecture.md) for the full design.
-
-## Quickstart
+## Install
 
 ```bash
-python -m venv .venv && .venv/bin/pip install -e ".[dev]"
-cp .env.example .env          # add GEMINI_API_KEY (and YOUTUBE_API_KEY for discovery)
-.venv/bin/pytest              # 212 tests, no network
-
-unbake evaluate <youtube-url>   # analyze + cross-validate one video → output/<videoId>/
-unbake batch --count 3          # discover → filter → analyze a small batch
-python -m unbake.review         # review dashboard → http://localhost:5180
+pip install git+https://github.com/Dessert-over-Debugging-Labs/unbake        # latest main
+pip install "unbake @ git+https://github.com/Dessert-over-Debugging-Labs/unbake@v0.2.0"
 ```
 
-Discovery (`unbake batch`) reads its dish list and channel whitelist from
-`seeds/dishes.json` and `seeds/channels.json`. Those files are yours and
-git-ignored; until you create them, the bundled `seeds/*.example.json`
-templates are used. Channels whose descriptions restrict reuse are recorded in
-`seeds/consent-required-channels.json` and skipped until consent is granted.
+Python 3.11+. Two runtime dependencies (`pydantic`, `requests`).
 
-Model IDs are configured per role (generator / blind observer / description /
-judge / matcher) in `src/unbake/config.py` and can be overridden with
-`GEMINI_MODEL_*` environment variables — exact IDs only, no `latest` aliases.
+Put keys in the environment or a `.env` in your working directory
+(see [.env.example](.env.example)):
+
+| Variable | Needed for |
+|---|---|
+| `GEMINI_API_KEY` | extraction and judging — required |
+| `YOUTUBE_API_KEY` | fetching title/description/duration for a URL — optional if you pass `description` yourself |
+| `OPENROUTER_API_KEY` | the domain gate below — optional; without it the gate is off |
+
+## What you get
+
+`make_recipe()` returns an `AnalysisArtifacts` and, by default, writes the same
+six files to `output/<videoId>/`:
+
+| File | Contents |
+|---|---|
+| `candidate.json` | the recipe: ingredients with amounts, steps with `[startMs, endMs)` spans, sub-steps — each with the code-assigned ID (`i1`, `s1`, `s1a`) that `evaluation.json` refers to |
+| `blind.json` | what the blind observer saw: audio facts, visual facts, timed actions |
+| `description-facts.json` | facts parsed from the description only |
+| `evaluation.json` | per-claim verdicts per source, fused verdicts, step roll-ups, temporal IoU, omissions, validation issues |
+| `manifest.json` | every LLM call: model ID, prompt version and hash, tokens, status |
+| `domain-check.json` | the gate's verdict, when the gate ran |
+
+All timestamps are integer milliseconds with half-open intervals. The JSON is
+camelCase; the Python objects are snake_case pydantic models
+(`unbake.models`). `SCHEMA_VERSION` is the contract — pin it downstream.
+
+## Domain gate
+
+Video calls are the expensive part. Before any video is sent to a model, a
+cheap text-only judge reads the title, channel, and description and decides
+whether this is a cooking video at all. It runs on an OpenRouter model by
+default, can reuse your Gemini key (`DOMAIN_CHECK=gemini`), or be turned off
+(`DOMAIN_CHECK=off`, or `--skip-domain-check` / `check_domain=False`). A
+rejected video raises `OffDomainError` with the verdict; the judge failing is
+an error, never a silent pass.
+
+## Bring your own models
+
+Model IDs live in one place, `unbake.config.DEFAULT_MODELS`, one per role
+(generator, blind observer, description parser, judge, matcher, domain gate),
+each overridable with `GEMINI_MODEL_*` / `DOMAIN_MODEL` — exact IDs only, no
+`latest` aliases. To use a different provider entirely, implement the five
+ports in `unbake.extraction.ports` and `unbake.evaluation.ports` and call
+`unbake.pipeline.analyze_and_evaluate` directly, or pass them to
+`make_recipe(..., ports=RecipePorts(...))`.
+
+## What unbake deliberately does not do
+
+The library ends at the artifacts. Finding videos, queueing and batching,
+human review, and publishing to a backend are yours to build on top — they
+depend on your catalog, your reviewers, and your schema. Two things unbake
+does give you for that layer: the artifact schema above, and an append-only
+quality-event log (`unbake.events`) whose event types (`ANALYZED`, `REVISED`,
+`APPROVED`, `REJECTED`, `PUBLISHED`) are the hooks a review flow needs.
 
 ## Layout
 
 ```
 src/unbake/
-├── models/       # serialization contracts (candidate IR, facts, evaluation)
-├── evaluation/   # deterministic verification core (no LLM calls)
-├── extraction/   # versioned prompts + extraction ports
-├── filtering/    # candidate filtering, reuse-restriction detection
-├── adapters/     # gemini · youtube · sqlite · naembii (example publish target)
-├── workflow/     # orchestration (analyze, batch) over an explicit state machine
-└── review/       # human review server; dashboard/ is the vanilla-JS UI
+├── api.py          # make_recipe — assembles default ports, runs the pipeline
+├── pipeline.py     # analyze_and_evaluate / save_artifacts (port-based, provider-free)
+├── gate.py         # domain gate: verdict, threshold, artifact
+├── models/         # pydantic contracts (candidate IR, facts, evaluation, provenance)
+├── extraction/     # versioned prompts + extraction ports
+├── evaluation/     # deterministic verification core (no LLM calls)
+├── adapters/       # gemini (video) · openrouter (text) · youtube (metadata)
+├── config.py       # .env loader, model IDs (single source of truth)
+└── events.py       # append-only quality events
 ```
-
-`adapters/naembii/` is a working publish adapter for a production recipe
-service — kept as a realistic example of the mapping layer. Extraction and
-evaluation run fully without it. To connect your own backend, see
-[docs/adapters.md](docs/adapters.md) — or let a coding agent assemble the
-adapter for you with the `build-publish-adapter` skill.
 
 ## Beyond recipes
 
-The pipeline ships focused on cooking videos — the schema, prompts, and filter
-are unapologetically about food. The verification approach underneath (dual
+unbake ships focused on cooking videos — the schema, prompts, and gate are
+unapologetically about food. The verification approach underneath (dual
 independent extraction, per-claim verdicts with one evidence source per judge,
-deterministic joins, temporal IoU) applies to any procedural video; adapting it
-means rewriting the prompts and the domain schema, not the verification core.
+deterministic joins, temporal IoU) applies to any procedural video. The
+recipe-specific pieces are the candidate schema (`models/candidate.py`), the
+prompts (`extraction/prompts/`), and the claim/omission rules
+(`evaluation/claims.py`, `evaluation/omissions.py`); the rest is generic.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Design rationale lives in
+[docs/architecture.md](docs/architecture.md) and the decision records in
+[docs/decisions/](docs/decisions/).
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Independently of the license, the filter treats
-creator consent as a first-class signal: channels that forbid reuse in their
-descriptions are detected and excluded.
+MIT — see [LICENSE](LICENSE).

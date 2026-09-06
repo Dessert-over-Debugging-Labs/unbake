@@ -4,11 +4,14 @@ Guidance for AI coding agents (and humans) working in this repository.
 
 ## What this project is
 
-**unbake** turns YouTube cooking videos into structured, verified recipes —
-ingredients, amounts, steps, and per-step video timestamps. The underlying goal:
-**video → structured, verified procedure**. Semantic extraction and judgment are
-LLM work; combining judgments, validating references, and computing metrics is
-deterministic code. Keep that boundary.
+**unbake** is a library (plus a thin CLI) that turns a YouTube cooking video
+into a structured, verified recipe — ingredients, amounts, steps, and per-step
+timestamps. The underlying goal: **video → structured, verified procedure**.
+Semantic extraction and judgment are LLM work; combining judgments, validating
+references, and computing metrics is deterministic code. Keep that boundary.
+
+The library ends at the artifacts (`make_recipe()` → `AnalysisArtifacts`).
+Discovery, batching, human review, and publishing are not in this repo.
 
 ## Architecture invariants
 
@@ -31,13 +34,22 @@ Do not break these without a recorded human decision (`docs/decisions/`):
 - **Decisions**: significant decisions (architecture, contracts, policy trade-offs)
   are recorded in `docs/decisions/`. Agents may add `proposed` records but must
   never mark their own proposal `accepted` — a human does that.
-- Run the relevant tests and `ruff check` before committing.
+- Run `pytest` and `ruff check src tests` before committing. Tests are
+  deterministic and make no network calls.
 - Secrets live in `.env` (never committed). Model IDs have a single source of
-  truth in `src/unbake/config.py` (`DEFAULT_MODELS`), overridable via `GEMINI_MODEL_*`.
+  truth in `src/unbake/config.py` (`DEFAULT_MODELS`), overridable via `GEMINI_MODEL_*`
+  and `DOMAIN_MODEL`.
+- **Handoff notes**: `notes/` is local-only (git-excluded) and may not exist in
+  your checkout. If it does, read `notes/progress/README.md` and the newest
+  entry before starting, and write an entry at the end of a substantial session
+  with the `progress-log` skill. Never commit it.
 
 ## Layout
 
-- `src/unbake/` — the package. Folders with their own AGENTS.md carry local rules.
-- `dashboard/` — review UI (vanilla JS, no build step).
+- `src/unbake/` — the package. `api.py` (`make_recipe`), `pipeline.py`
+  (port-based orchestration), `gate.py` (domain gate), `models/`, `extraction/`,
+  `evaluation/`, `adapters/` (gemini · openrouter · youtube). Folders with their
+  own AGENTS.md carry local rules.
 - `docs/` — architecture overview and decision records.
 - `tests/` — pytest; deterministic, no network calls.
+- `examples/` — runnable usage samples.

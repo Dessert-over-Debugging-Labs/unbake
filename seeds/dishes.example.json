@@ -1,7 +1,0 @@
-{
-  "comment": "Discovery track A — dish-name dictionary (Korean). Copy to dishes.json and grow it as you operate. Queries are '<dish> <modifier>', so extend both lists for variety. Keep dishes with 4–8 cooking steps and plenty of recipe videos.",
-  "modifiers": ["레시피", "만들기", "만드는법", "집밥", "간단"],
-  "dishes": [
-    "김치찌개", "된장찌개", "미역국", "제육볶음", "불고기", "잡채", "계란말이", "떡볶이"
-  ]
-}

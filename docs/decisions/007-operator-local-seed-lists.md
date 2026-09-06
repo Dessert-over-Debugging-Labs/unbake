@@ -1,7 +1,7 @@
 # 007. Seed lists are operator-local; the repo ships templates only
 
 - Date: 2026-09-06
-- Status: accepted
+- Status: superseded by 009
 - Decided by: human (on agent proposal)
 
 ## Decision
