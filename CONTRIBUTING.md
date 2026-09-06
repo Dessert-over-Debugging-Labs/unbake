@@ -8,7 +8,7 @@ it make `make_recipe()` more correct, more verifiable, or easier to run".
 ```bash
 git clone https://github.com/Dessert-over-Debugging-Labs/unbake && cd unbake
 python -m venv .venv && .venv/bin/pip install -e ".[dev]"
-git config core.hooksPath .githooks       # commit message check
+.venv/bin/pre-commit install              # ruff + whitespace/EOF/yaml/toml on each commit
 .venv/bin/pytest -q && .venv/bin/ruff check src tests
 ```
 

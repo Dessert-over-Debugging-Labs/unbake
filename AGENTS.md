@@ -28,8 +28,10 @@ Do not break these without a recorded human decision (`docs/decisions/`):
 ## Conventions
 
 - **Commits**: Conventional Commits (`feat|fix|docs|refactor|test|chore|build|ci|perf|revert`),
-  subject in English by default, ≤72 chars. Validated by `.githooks/commit-msg`
-  (run `git config core.hooksPath .githooks` once after clone).
+  subject in English by default, ≤72 chars. Not enforced by a hook.
+- **pre-commit**: run `pre-commit install` once after installing the dev extras.
+  It runs ruff (with fixes) and whitespace/EOF/yaml/toml checks on each commit;
+  CI runs the same ruff check plus pytest.
 - **PRs and issues**: English by default.
 - **Decisions**: significant decisions (architecture, contracts, policy trade-offs)
   are recorded in `docs/decisions/`. Agents may add `proposed` records but must

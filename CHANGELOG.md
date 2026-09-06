@@ -31,4 +31,3 @@ pipeline; that layer now lives outside this package (decision 009).
   package root) and honors `UNBAKE_OUTPUT_DIR`.
 - `workflow/analyze.py` → `pipeline.py`; `filtering/domain.py` + `workflow/gate.py`
   → `gate.py`.
-

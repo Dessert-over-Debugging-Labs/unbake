@@ -36,6 +36,7 @@ Changelog = "https://github.com/Dessert-over-Debugging-Labs/unbake/blob/main/CHA
 dev = [
     "pytest>=8",
     "ruff>=0.5",
+    "pre-commit>=3",
 ]
 
 [project.scripts]
