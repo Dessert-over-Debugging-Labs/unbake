@@ -35,6 +35,10 @@ Do not break these without a recorded human decision (`docs/decisions/`):
 - Secrets live in `.env` (never committed). Model IDs have a single source of
   truth in `src/unbake/config.py` (`DEFAULT_MODELS`), overridable via `GEMINI_MODEL_*`
   and `DOMAIN_MODEL`.
+- **Handoff notes**: `notes/` is local-only (git-excluded) and may not exist in
+  your checkout. If it does, read `notes/progress/README.md` and the newest
+  entry before starting, and write an entry at the end of a substantial session
+  with the `progress-log` skill. Never commit it.
 
 ## Layout
 
