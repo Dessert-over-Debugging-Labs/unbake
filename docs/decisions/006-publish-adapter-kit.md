@@ -1,8 +1,8 @@
 # 006. Publish adapters: neutral contract + assembly kit, naembii as reference
 
 - Date: 2026-09-06
-- Status: proposed
-- Decided by: — (agent proposal, awaiting human confirmation)
+- Status: accepted
+- Decided by: human (on agent proposal)
 
 ## Decision
 Keep the naembii adapter as the working reference implementation, and make
@@ -20,4 +20,4 @@ e.g. 409-as-duplicate-success), and the contract plus shared tests keep
 generated adapters from encoding one author's misconception.
 
 ## Links
-—
+d0112b1
