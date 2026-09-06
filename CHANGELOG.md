@@ -5,6 +5,16 @@ All notable changes to this project are documented here. The format follows
 [SemVer](https://semver.org/) — `SCHEMA_VERSION` in `models/base.py` versions
 the artifact JSON separately.
 
+## [0.1.1] - 2026-09-06
+
+### Added
+- `Config` and `ModelConfig` are exported from the package root, so keys and
+  model IDs can be passed in code: `make_recipe(url, config=Config(...))`.
+
+### Changed
+- Repository tooling: pre-commit (ruff + whitespace/EOF/yaml/toml), Dependabot,
+  branch protection on `main`. The custom commit-message hook is gone.
+
 ## [0.1.0] - 2026-09-06
 
 First tagged release. The library ends at the artifacts: `make_recipe(url)`

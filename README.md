@@ -58,13 +58,14 @@ to settle — instead of a model quietly picking one.
 
 ```bash
 pip install git+https://github.com/Dessert-over-Debugging-Labs/unbake        # latest main
-pip install "unbake @ git+https://github.com/Dessert-over-Debugging-Labs/unbake@v0.1.0"
+pip install "unbake @ git+https://github.com/Dessert-over-Debugging-Labs/unbake@v0.1.1"
 ```
 
 Python 3.11+. Two runtime dependencies (`pydantic`, `requests`).
 
 Put keys in the environment or a `.env` in your working directory
-(see [.env.example](.env.example)):
+(see [.env.example](.env.example)), or pass them in code with
+`make_recipe(url, config=Config(gemini_api_key=..., openrouter_api_key=...))`:
 
 | Variable | Needed for |
 |---|---|

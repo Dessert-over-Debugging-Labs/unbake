@@ -4,8 +4,7 @@ import json
 import pytest
 
 from tests.evaluation.conftest import FakeJudge, FakeMatcher, make_candidate
-from unbake import OffDomainError, RecipePorts, make_recipe
-from unbake.config import Config
+from unbake import Config, OffDomainError, RecipePorts, make_recipe
 from unbake.gate import DomainVerdict
 from unbake.models import BlindExtraction, DescriptionFacts, LlmCallRecord, VideoAction
 
