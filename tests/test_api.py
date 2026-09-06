@@ -147,3 +147,60 @@ def test_산출물과_반환_객체에_코드가_부여한_ID가_실린다(cfg):
     assert saved["steps"][0]["stepId"] == "s1"
     # evaluation 이 가리키는 ID 와 같은 값
     assert artifacts.evaluation.step_rollups[0].step_id == "s1"
+
+
+@pytest.mark.parametrize("confidence", ["NaN", float("nan"), True, 3, None])
+def test_invalid_gate_confidence_never_reaches_video_ports(cfg, confidence):
+    from unittest.mock import Mock
+
+    from tests.adapters.test_openrouter_domain_judge import FakeClient
+    from unbake.adapters.openrouter.domain_judge import LlmDomainJudge
+    from unbake.evaluation.recovery import LlmParseError
+
+    ports = _ports()
+    ports.generator = Mock()
+    ports.blind_extractor = Mock()
+    judge = LlmDomainJudge(FakeClient({"isCooking": True, "confidence": confidence}), "fake")
+    with pytest.raises(LlmParseError, match="confidence"):
+        make_recipe(VID, description="recipe", config=cfg, ports=ports, domain_judge=judge)
+    ports.generator.extract_candidate.assert_not_called()
+    ports.blind_extractor.extract_facts.assert_not_called()
+    assert not cfg.output_dir.exists()
+
+
+@pytest.mark.parametrize("check_domain", [False, None])
+@pytest.mark.parametrize("previous_passed", [False, True])
+def test_successful_skipped_run_removes_previous_gate(cfg, check_domain, previous_passed):
+    try:
+        make_recipe(VID, description="recipe", config=cfg, ports=_ports(),
+                    domain_judge=FakeDomainJudge(previous_passed))
+    except OffDomainError:
+        assert not previous_passed
+    target = cfg.output_dir / VID
+    assert (target / "domain-check.json").exists()
+
+    result = make_recipe(VID, description="recipe", config=cfg, ports=_ports(),
+                         check_domain=check_domain)
+    assert not (target / "domain-check.json").exists()
+    manifest = json.loads((target / "manifest.json").read_text())
+    assert manifest == result.manifest.dump()
+
+
+@pytest.mark.parametrize("save", [False, True])
+def test_unsaved_or_failed_skipped_run_preserves_previous_gate(cfg, save):
+    from unittest.mock import Mock
+
+    make_recipe(VID, description="recipe", config=cfg, ports=_ports(),
+                domain_judge=FakeDomainJudge())
+    target = cfg.output_dir / VID
+    previous = {p.name: p.read_bytes() for p in target.iterdir()}
+    ports = _ports()
+    if save:
+        ports.generator = Mock()
+        ports.generator.extract_candidate.side_effect = RuntimeError("extraction failed")
+        with pytest.raises(RuntimeError, match="extraction failed"):
+            make_recipe(VID, description="recipe", config=cfg, ports=ports, check_domain=False)
+    else:
+        make_recipe(VID, description="recipe", config=cfg, ports=ports,
+                    check_domain=False, save=False)
+    assert {p.name: p.read_bytes() for p in target.iterdir()} == previous

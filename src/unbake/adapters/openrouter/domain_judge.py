@@ -34,14 +34,15 @@ class LlmDomainJudge:
         data, usage = self._client.generate_json(self._model, rendered)
         if not isinstance(data, dict) or not isinstance(data.get("isCooking"), bool):
             raise LlmParseError("도메인 판정 응답에 isCooking(boolean)이 없다")
-        try:
-            confidence = float(data.get("confidence") or 0.0)
-        except (TypeError, ValueError) as exc:
-            raise LlmParseError(f"confidence가 숫자가 아니다: {data.get('confidence')!r}") from exc
+        confidence = data.get("confidence")
+        # JSON 숫자만 허용한다. 범위 비교는 NaN·무한대도 거부하며 보정하지 않는다.
+        if (isinstance(confidence, bool) or not isinstance(confidence, (int, float))
+                or not 0.0 <= confidence <= 1.0):
+            raise LlmParseError(f"confidence는 0~1 사이의 유한한 숫자여야 한다: {confidence!r}")
         dish = data.get("dishName")
         return DomainVerdict(
             is_cooking=data["isCooking"],
-            confidence=max(0.0, min(1.0, confidence)),
+            confidence=float(confidence),
             reason=str(data.get("reason") or ""),
             dish_name=str(dish) if dish else None,
             model=self._model,
