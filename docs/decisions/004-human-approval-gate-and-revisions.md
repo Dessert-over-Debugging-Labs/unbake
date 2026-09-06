@@ -1,7 +1,7 @@
 # 004. Human approval gate; edits are append-only revisions
 
 - Date: 2026-09-05
-- Status: accepted
+- Status: superseded by 009
 - Decided by: human
 
 ## Decision
