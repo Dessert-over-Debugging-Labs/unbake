@@ -6,23 +6,19 @@
 """
 import time
 from collections.abc import Callable
-from dataclasses import dataclass
 from typing import Any
 
 import requests
+
+from unbake.publishing import PublishResult
 
 TOKEN_REUSE_SEC = 25 * 60          # TTL 30분 — 25분까지만 재사용
 RETRYABLE_TRIES = 3                # 5xx/네트워크 재시도 횟수
 BACKOFF_BASE_SEC = 1.0
 
 
-@dataclass
-class PublishResult:
-    status: str                    # created | duplicate | failed
-    recipe_id: str | None = None
-    error_code: str | None = None
-    message: str | None = None
-    field_errors: list | None = None
+# 중립 계약(unbake.publishing)의 PublishResult를 그대로 사용한다 — 재노출은 하위 호환용
+
 
 
 class NaembiiClient:

@@ -103,5 +103,7 @@ def structure_candidate(
         return result
 
     result.request = request
+    # payload를 검증 통과본(전송 형식)으로 확정 — 중립 계약(StructureOutcome)의 표면
+    result.payload = request.model_dump(exclude_none=True)
     result.warnings.extend(soft_warnings(request))
     return result

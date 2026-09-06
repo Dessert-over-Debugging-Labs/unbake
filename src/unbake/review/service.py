@@ -74,9 +74,10 @@ def _read_json(path: Path) -> Any | None:
 
 logger = logging.getLogger(__name__)
 
-# publisher 계약: RecipeCreateRequest dict → PublishResult (adapters.naembii.client 참조).
-# 주입 가능하게 두는 이유 — 테스트 격리 + 다른 백엔드 교체 (docs/architecture.md)
+# publisher·mapper 계약은 중립 모듈(unbake.publishing)이 정의한다 — docs/adapters.md 참조.
+# 주입 가능하게 두는 이유: 테스트 격리 + 다른 백엔드로 교체 (mapper까지 갈아야 완전 교체다)
 Publisher = Callable[[dict], Any]
+Mapper = Callable[[Any, dict | None], Any]  # (candidate, video_meta) -> StructureOutcome
 
 
 def _candidate_hash(candidate_dump: dict) -> str:
@@ -91,11 +92,13 @@ class ReviewService:
         output_dir: Path,
         dev_publisher: Publisher | None = None,
         prod_publisher: Publisher | None = None,
+        mapper: Mapper | None = None,
     ):
         self.db_path = Path(db_path)
         self.output_dir = Path(output_dir)
         self._dev_publisher = dev_publisher
         self._prod_publisher = prod_publisher
+        self._mapper: Mapper = mapper or structure_candidate
 
     def _publisher(self, env: str) -> Publisher:
         """미주입 시 Config에서 lazy 조립 — 시크릿 없으면 503으로 명확히 실패."""
@@ -439,14 +442,14 @@ class ReviewService:
         candidate = RecipeCandidate.model_validate(data)
         meta = _read_json(self.output_dir / video_id / "meta.json")
 
-        result = structure_candidate(candidate, meta)
-        if result.request is None:
+        result = self._mapper(candidate, meta)
+        if result.errors:
             raise ReviewError(
                 409, "하드 규칙 위반 — 등록 불가: " + " / ".join(result.errors)[:400]
             )
         for warning in result.warnings:
             logger.warning("[%s] %s", video_id, warning)
-        return result.request.model_dump(exclude_none=True), revision_id
+        return result.payload, revision_id
 
     def publish_dev(self, video_id: str) -> dict:
         """승인된 revision을 dev 백엔드에 등록. 409(중복)는 성공 취급 (멱등)."""
