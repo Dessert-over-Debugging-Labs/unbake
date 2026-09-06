@@ -1,7 +1,7 @@
 """요리 도메인 게이트 — 메타 블록 구성, 임계값 결정, 판정 실패 전파."""
 import pytest
 
-from unbake.filtering import domain as D
+from unbake import gate as D
 
 
 class FakeJudge:

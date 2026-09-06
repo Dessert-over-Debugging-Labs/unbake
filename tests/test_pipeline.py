@@ -10,7 +10,7 @@ from unbake.adapters.gemini import (
     GeminiJudge,
     GeminiMatcher,
 )
-from unbake.workflow.analyze import analyze_and_evaluate, save_artifacts
+from unbake.pipeline import analyze_and_evaluate, save_artifacts
 
 CANDIDATE_JSON = {
     "videoId": "ignored-by-adapter",

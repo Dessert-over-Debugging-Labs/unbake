@@ -13,6 +13,11 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from unbake.evaluation.engine import compute_input_hash, evaluate_candidate
+from unbake.evaluation.ids import (
+    assign_blind_ids,
+    assign_candidate_ids,
+    assign_description_fact_ids,
+)
 from unbake.evaluation.ports import JudgePort, MatcherPort
 from unbake.events import record_event
 from unbake.extraction.ports import (
@@ -72,6 +77,13 @@ def analyze_and_evaluate(
     )
     description_facts, rec_d = description_parser.parse(description)
     logger.info("설명란 파싱 완료: 사실 %d개", len(description_facts.facts))
+
+    # ID 는 코드가 위치 기반으로 부여한다 — 산출물(candidate·blind·description-facts)에도 같은 ID 를
+    # 실어 evaluation 의 s1/c1/a1/d1 참조가 파일만 보고 풀리게 한다. evaluate_candidate 는
+    # 같은 규칙으로 다시 부여하므로(멱등) 값이 달라지지 않는다.
+    candidate = assign_candidate_ids(candidate)
+    description_facts = assign_description_fact_ids(description_facts)
+    blind = assign_blind_ids(blind)
 
     if on_evaluating is not None:
         # 추출(analyzing)과 평가(evaluating)의 경계 — 상태 전이·run 기록은 호출자 몫

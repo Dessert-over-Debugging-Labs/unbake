@@ -4,16 +4,33 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "unbake"
-version = "0.1.0"
-description = "Extract structured, cross-verified recipes from YouTube cooking videos"
+version = "0.2.0"
+description = "YouTube cooking video in, cross-verified structured recipe out — ingredients, amounts, steps, timestamps"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
+keywords = ["recipe", "youtube", "video", "extraction", "gemini", "llm", "verification"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 dependencies = [
     "pydantic>=2.7",
     "requests>=2.31",
-    "youtube-transcript-api>=1.0",  # filter stage: caption availability check
 ]
+
+[project.urls]
+Homepage = "https://github.com/Dessert-over-Debugging-Labs/unbake"
+Documentation = "https://github.com/Dessert-over-Debugging-Labs/unbake/blob/main/docs/architecture.md"
+Issues = "https://github.com/Dessert-over-Debugging-Labs/unbake/issues"
+Changelog = "https://github.com/Dessert-over-Debugging-Labs/unbake/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [
