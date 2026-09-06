@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from unbake.config import Config
-from unbake.gate import DomainJudgePort, GateResult, run_domain_gate
+from unbake.gate import DOMAIN_CHECK_FILENAME, DomainJudgePort, GateResult, run_domain_gate
 from unbake.pipeline import AnalysisArtifacts, analyze_and_evaluate, save_artifacts
 from unbake.util import parse_video_id
 
@@ -158,6 +158,9 @@ def make_recipe(
     )
     if save:
         target = save_artifacts(artifacts, out)
+        if judge is None:
+            # 성공한 저장 실행에만 적용 — 이전 실행의 판정을 새 산출물과 섞지 않는다.
+            (target / DOMAIN_CHECK_FILENAME).unlink(missing_ok=True)
         if meta:
             (target / "meta.json").write_text(
                 json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"

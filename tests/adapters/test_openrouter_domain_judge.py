@@ -29,10 +29,12 @@ def test_판정을_DomainVerdict로_옮기고_provenance를_붙인다():
     assert "제목: 김치찌개" in prompt and "{{VIDEO}}" not in prompt and temperature == 0.0
 
 
-def test_confidence는_0과_1사이로_고정_dishName_null_허용():
-    verdict = LlmDomainJudge(FakeClient({"isCooking": False, "confidence": 3, "dishName": None}),
+@pytest.mark.parametrize("confidence", [0, 0.5, 1])
+def test_유효한_confidence_경계값과_dishName_null_허용(confidence):
+    verdict = LlmDomainJudge(FakeClient({"isCooking": False, "confidence": confidence,
+                                       "dishName": None}),
                              "m").judge("x")
-    assert verdict.confidence == 1.0 and verdict.dish_name is None
+    assert verdict.confidence == confidence and verdict.dish_name is None
 
 
 @pytest.mark.parametrize("bad", [
@@ -40,6 +42,11 @@ def test_confidence는_0과_1사이로_고정_dishName_null_허용():
     {"confidence": 0.9},                 # isCooking 없음
     {"isCooking": "yes"},                # boolean 아님
     {"isCooking": True, "confidence": "high"},
+    {"isCooking": True},
+    *({"isCooking": True, "confidence": value} for value in [
+        None, True, False, "NaN", "0.9", float("nan"), float("inf"), float("-inf"),
+        -0.1, 3, [], {},
+    ]),
 ])
 def test_계약_위반은_LlmParseError(bad):
     with pytest.raises(LlmParseError):
