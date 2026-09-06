@@ -12,6 +12,7 @@ license = { file = "LICENSE" }
 dependencies = [
     "pydantic>=2.7",
     "requests>=2.31",
+    "youtube-transcript-api>=1.0",  # filter stage: caption availability check
 ]
 
 [project.optional-dependencies]
